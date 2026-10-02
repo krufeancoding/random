@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>วงล้อสุ่มชิงโชคตู้ (เดือนตุลาคม ล่าสุด)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --bg-card: #131d31;
+      --bg-card-hover: #1c2a44;
+      --border-color: #233454;
+      --gold-primary: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-dark: #b45309;
+      --gold-glow: rgba(245, 158, 11, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-red: #ef4444;
+      --accent-green: #10b981;
+      --accent-blue: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: rgba(19, 29, 49, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px var(--gold-glow);
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: var(--bg-card-hover);
+    }
+
+    .icon-btn.active {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+    }
+
+    /* Main Container & Tabs */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 16px 80px 16px;
+    }
+
+    /* Condition Filter Pills */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 12px 2px;
+      scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .filter-chip .badge {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+    }
+
+    .filter-chip.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .filter-chip.active .badge {
+      background: var(--gold-primary);
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* Wheel Screen */
+    .wheel-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    /* Live Ticker Card */
+    .ticker-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .ticker-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ticker-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+      text-align: right;
+    }
+
+    /* Canvas Wheel Stage */
+    .wheel-stage {
+      position: relative;
+      width: 340px;
+      height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (min-width: 480px) {
+      .wheel-stage {
+        width: 400px;
+        height: 400px;
+      }
+    }
+
+    canvas#wheelCanvas {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 35px rgba(0,0,0,0.6), 0 0 0 6px #1a263d, 0 0 0 10px rgba(245,158,11,0.3);
+    }
+
+    /* Top Pointer Arrow */
+    .wheel-pointer {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 36px;
+      z-index: 10;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+      transition: transform 0.08s ease;
+    }
+
+    .wheel-pointer.tick {
+      transform: translateX(-50%) scale(1.15) translateY(-3px);
+    }
+
+    .wheel-pointer svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Center Spin Hub */
+    .center-hub {
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #25334e 20%, #121c2e 100%);
+      border: 4px solid var(--gold-primary);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4), inset 0 2px 4px rgba(255,255,255,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 8;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .center-hub:active {
+      transform: scale(0.93);
+    }
+
+    .center-hub span {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .center-hub small {
+      font-size: 0.6rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* Main Big Spin Action Button (Mobile Friendly) */
+    .spin-action-box {
+      width: 100%;
+      max-width: 440px;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-spin-main {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0f172a;
+      border: none;
+      font-family: inherit;
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 16px 24px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+    }
+
+    .btn-spin-main:active:not(:disabled) {
+      transform: scale(0.97);
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+    }
+
+    .btn-spin-main:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+    }
+
+    .btn-sub-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-secondary:active {
+      background: var(--bg-card-hover);
+    }
+
+    /* Bottom Navigation Tabs */
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 12px;
+      z-index: 40;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 4px 12px;
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .tab-item.active {
+      color: var(--gold-light);
+    }
+
+    .tab-item svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2;
+    }
+
+    /* Panels for other tabs (List & History) */
+    .panel {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .panel.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #0d1527;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: inherit;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .item-list {
+      max-height: 55vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+      padding-right: 4px;
+    }
+
+    .candidate-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      font-size: 0.88rem;
+    }
+
+    .candidate-row .cand-name {
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .candidate-row .cand-count {
+      font-size: 0.75rem;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold-light);
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    /* Modal for Winner */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 15, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-card {
+      background: linear-gradient(160deg, #18253e 0%, #0e1728 100%);
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 0 40px var(--gold-glow);
+      border-radius: 24px;
+      padding: 28px 20px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+
+    .winner-trophy {
+      font-size: 54px;
+      margin-bottom: 8px;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    .winner-tagline {
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .winner-name {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 12px 0 6px 0;
+      word-break: break-word;
+    }
+
+    .winner-meta {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: var(--gold-light);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-remove-winner {
+      background: #dc2626;
+      color: white;
+      border: none;
+      font-family: inherit;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-keep-winner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: inherit;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti Canvas Layer -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🎁</div>
+      <div>
+        <div class="brand-title">ชิงโชคตู้เดือนตุลาคม (ล่าสุด)</div>
+        <div class="brand-subtitle" id="poolSubtitle">ผู้มีสิทธิ์ 3 ครั้งขึ้นไป (815 คน)</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn active" id="soundToggleBtn" title="เปิด/ปิดเสียง">🔊</button>
+      <button class="icon-btn" id="qrBtn" title="แสดง QR Code สำหรับมือถือ">📱</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Condition Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-chip active" data-filter="gte3">
+        <span>⭐ 3 ครั้งขึ้นไป</span>
+        <span class="badge" id="badgeGte3">815</span>
+      </div>
+      <div class="filter-chip" data-filter="gt3">
+        <span>🔥 เกิน 3 ครั้ง (4+)</span>
+        <span class="badge" id="badgeGt3">677</span>
+      </div>
+      <div class="filter-chip" data-filter="eq3">
+        <span>🎯 3 ครั้งพอดี</span>
+        <span class="badge" id="badgeEq3">138</span>
+      </div>
+      <div class="filter-chip" data-filter="all">
+        <span>👥 ทั้งหมด</span>
+        <span class="badge" id="badgeAll">999</span>
+      </div>
+    </div>
+
+    <!-- TAB 1: WHEEL PANEL -->
+    <div class="panel active" id="tabWheel">
+      <div class="wheel-section">
+        <!-- Live Ticker -->
+        <div class="ticker-card">
+          <div class="ticker-label">🎯 รายชื่อขณะนี้</div>
+          <div class="ticker-name" id="liveTickerName">กดปุ่มสุ่มวงล้อเพื่อเริ่ม</div>
+        </div>
+
+        <!-- Wheel Stage -->
+        <div class="wheel-stage">
+          <!-- Pointer Arrow -->
+          <div class="wheel-pointer" id="wheelPointer">
+            <svg viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 36L2.14 10.5C0.32 7.15 2.74 3 6.55 3L25.45 3C29.26 3 31.68 7.15 29.86 10.5L16 36Z" fill="#F59E0B" stroke="#78350F" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <!-- HTML5 Canvas Wheel -->
+          <canvas id="wheelCanvas" width="800" height="800"></canvas>
+
+          <!-- Center Hub -->
+          <div class="center-hub" id="centerHubBtn">
+            <span>SPIN</span>
+            <small>สุ่มเลย</small>
+          </div>
+        </div>
+
+        <!-- Action Box -->
+        <div class="spin-action-box">
+          <button class="btn-spin-main" id="spinBtn">
+            <span>🎲 หมุนวงล้อสุ่มผู้โชคดี</span>
+          </button>
+          <div class="btn-sub-actions">
+            <button class="btn-secondary" id="btnResetPool">
+              <span>🔄 รีเซ็ตรายชื่อเริ่มต้น</span>
+            </button>
+            <button class="btn-secondary" id="btnShufflePool">
+              <span>🔀 สลับลำดับ</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: CANDIDATE LIST PANEL -->
+    <div class="panel" id="tabList">
+      <div class="panel-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="font-size:1rem; font-weight:700;">รายชื่อผู้มีสิทธิ์ที่เหลืออยู่ (<span id="candCount">815</span>)</h3>
+          <span style="font-size:0.75rem; color:var(--text-muted);" id="autoRemoveStatus">สุ่มแล้วลบออกอัตโนมัติ: ปิด</span>
+        </div>
+        <input type="text" class="search-input" id="searchCand" placeholder="🔍 ค้นหาชื่อ-นามสกุล...">
+        <div class="item-list" id="candidateListEl">
+          <!-- Dynamic Candidate Items -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: WINNERS LOG PANEL -->
+    <div class="panel" id="tabWinners">
+      <div class="panel-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 style="font-size:1rem; font-weight:700;">ประวัติผู้โชคดี (<span id="winnerCount">0</span>)</h3>
+          <button class="btn-secondary" id="btnExportWinners" style="padding:6px 12px; font-size:0.75rem;">
+            📥 ส่งออกผลรางวัล
+          </button>
+        </div>
+        <div class="item-list" id="winnersListEl">
+          <div style="text-align:center; padding:30px; color:var(--text-muted); font-size:0.85rem;">
+            ยังไม่มีประวัติการสุ่ม กดหมุนวงล้อเพื่อเริ่มสุ่มผู้โชคดี
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="tab-bar">
+    <div class="tab-item active" data-tab="tabWheel">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3v18M3 12h18"/>
+      </svg>
+      <span>วงล้อสุ่ม</span>
+    </div>
+    <div class="tab-item" data-tab="tabList">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
+      <span>รายชื่อ (<span id="tabCountBadge">815</span>)</span>
+    </div>
+    <div class="tab-item" data-tab="tabWinners">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+      </svg>
+      <span>ผู้โชคดี (<span id="tabWinnerBadge">0</span>)</span>
+    </div>
+  </div>
+
+  <!-- Winner Modal -->
+  <div class="modal-overlay" id="winnerModal">
+    <div class="modal-card">
+      <div class="winner-trophy">🎉</div>
+      <div class="winner-tagline">ยินดีด้วย! ผู้โชคดีได้รับรางวัล</div>
+      <div class="winner-name" id="modalWinnerName">-</div>
+      <div class="winner-meta" id="modalWinnerMeta">เข้าเงื่อนไข: พบ 4 ครั้ง</div>
+      <div class="modal-buttons">
+        <button class="btn-remove-winner" id="btnModalRemove">
+          🗑️ ลบชื่อนี้ออกจากการสุ่มรอบต่อไป
+        </button>
+        <button class="btn-keep-winner" id="btnModalKeep">
+          ✅ เก็บชื่อไว้ในวงล้อต่อไป
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal-card" style="max-width:340px;">
+      <h3 style="margin-bottom:8px; font-size:1.1rem;">📱 ใช้งานผ่านโทรศัพท์</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:16px;">
+        เชื่อมต่อ Wi-Fi วงเดียวกัน แล้วเปิด URL นี้บนมือถือ:
+      </p>
+      <div style="background:#fff; padding:12px; border-radius:12px; display:inline-block; margin-bottom:12px;">
+        <img id="qrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http://192.168.40.95:3000" alt="QR" width="180" height="180">
+      </div>
+      <div style="font-family:monospace; background:#0c1424; padding:8px; border-radius:8px; font-size:0.9rem; color:var(--gold-light); margin-bottom:16px;">
+        http://192.168.40.95:3000
+      </div>
+      <button class="btn-secondary" style="width:100%;" onclick="document.getElementById('qrModal').classList.remove('active')">
+        ปิดหน้าต่าง
+      </button>
+    </div>
+  </div>
+
+  <!-- EMBEDDED DATA & SCRIPT -->
+  <script>
+    const ALL_CANDIDATES = [{"no":1,"name":"Amanee Nii’z","count":5,"fileCount":5},{"no":2,"name":"กะเปาะห์ ตัดเย็บ","count":5,"fileCount":5},{"no":3,"name":"ฮาน่า นาธาน","count":5,"fileCount":5},{"no":4,"name":"จิตติมา หนิเต็ม","count":5,"fileCount":5},{"no":5,"name":"ซุฮรี อาลี","count":6,"fileCount":5},{"no":6,"name":"รอซะ ต่ำพู้","count":5,"fileCount":5},{"no":7,"name":"Sudah","count":5,"fileCount":5},{"no":8,"name":"Sapiyoh Auseng","count":5,"fileCount":5},{"no":9,"name":"Nume Mynema","count":5,"fileCount":5},{"no":10,"name":"Qalbi Nadak","count":5,"fileCount":5},{"no":11,"name":"Aseeyah Kasor","count":5,"fileCount":5},{"no":12,"name":"Ikhlas Fauzi","count":5,"fileCount":5},{"no":13,"name":"Faesah Jarong","count":5,"fileCount":5},{"no":14,"name":"Ratu Dunya Al-maratus Sholihin","count":5,"fileCount":5},{"no":15,"name":"Rohanee Sulong","count":8,"fileCount":5},{"no":16,"name":"Ad-dunya Mataul Ghurur","count":5,"fileCount":5},{"no":17,"name":"Nur Nurma","count":5,"fileCount":5},{"no":18,"name":"Cik Tee","count":5,"fileCount":5},{"no":19,"name":"Hidup Semantara","count":5,"fileCount":5},{"no":20,"name":"Hamibah Baka","count":5,"fileCount":5},{"no":21,"name":"Asna Asearoid","count":5,"fileCount":5},{"no":22,"name":"อันดา คอยรู","count":5,"fileCount":5},{"no":23,"name":"Sofeeyah Puteh","count":5,"fileCount":5},{"no":24,"name":"ดอเลาะ ดอมา","count":5,"fileCount":5},{"no":25,"name":"Suwannee Chehah","count":5,"fileCount":5},{"no":26,"name":"Hayatee Mahae","count":5,"fileCount":5},{"no":27,"name":"Danish Dahlia","count":5,"fileCount":5},{"no":28,"name":"อาเลส จิ","count":5,"fileCount":5},{"no":29,"name":"An Asree Tokshin","count":5,"fileCount":5},{"no":30,"name":"Yoh Khoreeyoh","count":5,"fileCount":5},{"no":31,"name":"ครัวริมทาง ตามสั่ง","count":5,"fileCount":5},{"no":32,"name":"รุสนี ดาราเซะ","count":5,"fileCount":5},{"no":33,"name":"สากีเร๊าะ หะมะ","count":5,"fileCount":5},{"no":34,"name":"สอและ คาเร็ง","count":5,"fileCount":5},{"no":35,"name":"MyMom Yamilah","count":5,"fileCount":5},{"no":36,"name":"ฮัดตา มะลี","count":5,"fileCount":5},{"no":37,"name":"Nurulhuda Chesen","count":5,"fileCount":5},{"no":38,"name":"Suhaida domae","count":5,"fileCount":5},{"no":39,"name":"Teman Hidup","count":5,"fileCount":5},{"no":40,"name":"นูรุลฮูดา ดาหามะ","count":5,"fileCount":5},{"no":41,"name":"Sakeeyah Binsamah","count":5,"fileCount":5},{"no":42,"name":"Rawiya Kodo","count":5,"fileCount":5},{"no":43,"name":"Sareefah Che-heng","count":5,"fileCount":5},{"no":44,"name":"หนึ่งเดียวในใจ คนต่อไปคือกำไรชีวิต","count":5,"fileCount":5},{"no":45,"name":"Sainab tohtayong","count":5,"fileCount":5},{"no":46,"name":"Ana Fateemah","count":5,"fileCount":5},{"no":47,"name":"Ahanmad Saemoh","count":5,"fileCount":5},{"no":48,"name":"Balkis Binti Idris","count":5,"fileCount":5},{"no":49,"name":"Nurlaila Waloh","count":5,"fileCount":5},{"no":50,"name":"Ana Haifa","count":5,"fileCount":5},{"no":51,"name":"Mami Ar-esah","count":5,"fileCount":5},{"no":52,"name":"Suhainee Wamah","count":5,"fileCount":5},{"no":53,"name":"Aleena Waenudeng","count":5,"fileCount":5},{"no":54,"name":"Hatimu Kasihku","count":5,"fileCount":5},{"no":55,"name":"Nisainab Chilik","count":5,"fileCount":5},{"no":56,"name":"Sdc Farm","count":5,"fileCount":5},{"no":57,"name":"รอวีฮะห์ จินตรา","count":5,"fileCount":5},{"no":58,"name":"Mulimin Ickeem","count":5,"fileCount":5},{"no":59,"name":"นูรอีลฮัมร์ ดือเระ","count":5,"fileCount":5},{"no":60,"name":"Uriyah Salaeh","count":5,"fileCount":5},{"no":61,"name":"Mareeyah alee","count":5,"fileCount":5},{"no":62,"name":"Abu nawah","count":5,"fileCount":5},{"no":63,"name":"สาลีปะ กูเต๊ะ","count":5,"fileCount":5},{"no":64,"name":"Nurpareeda jehma","count":5,"fileCount":5},{"no":65,"name":"ฟ้า หลัง ฝน","count":5,"fileCount":5},{"no":66,"name":"เดะแอ แลแม","count":5,"fileCount":5},{"no":67,"name":"Farida Kachi","count":5,"fileCount":5},{"no":68,"name":"Da Asmida Liming","count":5,"fileCount":5},{"no":69,"name":"แก้วตา ดวงใจ","count":5,"fileCount":5},{"no":70,"name":"รอซารี อีซอ","count":5,"fileCount":5},{"no":71,"name":"Putri Bongsu","count":5,"fileCount":5},{"no":72,"name":"Aina Ikwan Alif","count":5,"fileCount":5},{"no":73,"name":"Wanida using","count":5,"fileCount":5},{"no":74,"name":"Elliana Niyomdecha","count":5,"fileCount":5},{"no":75,"name":"Tuanroyana Saerae","count":5,"fileCount":5},{"no":76,"name":"มาหะมะ อาละ","count":5,"fileCount":5},{"no":77,"name":"Sitiruqaiyah Dueramae","count":5,"fileCount":5},{"no":78,"name":"Nuraihah Cheni","count":5,"fileCount":5},{"no":79,"name":"Ruwaida Hengsa","count":5,"fileCount":5},{"no":80,"name":"Aishah Humaira","count":5,"fileCount":5},{"no":81,"name":"ซาฮีซะ อาแวกาจิ","count":5,"fileCount":5},{"no":82,"name":"อิบตีซาม กาเดาะ","count":5,"fileCount":5},{"no":83,"name":"ซาปูรอ อาแว","count":5,"fileCount":5},{"no":84,"name":"Chehasenah Bincheasae","count":5,"fileCount":5},{"no":85,"name":"Ummee WanArif","count":5,"fileCount":5},{"no":86,"name":"Fazlina Rinaz","count":5,"fileCount":5},{"no":87,"name":"Hasila Yaman","count":5,"fileCount":5},{"no":88,"name":"Alham Dulillah","count":5,"fileCount":5},{"no":89,"name":"Mada Plass","count":5,"fileCount":5},{"no":90,"name":"Subaidah salaemae","count":5,"fileCount":5},{"no":91,"name":"Rusda Daeworsanung","count":5,"fileCount":5},{"no":92,"name":"Hanah Hanah","count":5,"fileCount":5},{"no":93,"name":"ซารีฮหะ แวสมายล์","count":5,"fileCount":5},{"no":94,"name":"Mastura Hayeekodae","count":5,"fileCount":5},{"no":95,"name":"Suhana Makek","count":5,"fileCount":5},{"no":96,"name":"Haya Nur Hana","count":5,"fileCount":5},{"no":97,"name":"Ahama Sama","count":5,"fileCount":5},{"no":98,"name":"Yah Alwany","count":5,"fileCount":5},{"no":99,"name":"Iyush Sham","count":5,"fileCount":5},{"no":100,"name":"Dasima Pohlee","count":5,"fileCount":5},{"no":101,"name":"อาราฟัต สาและ","count":5,"fileCount":5},{"no":102,"name":"Farida Samahae","count":5,"fileCount":5},{"no":103,"name":"Jas Min","count":5,"fileCount":5},{"no":104,"name":"Tuan Anas samae","count":5,"fileCount":5},{"no":105,"name":"Nana Wateh","count":5,"fileCount":5},{"no":106,"name":"Zakee paksa","count":5,"fileCount":5},{"no":107,"name":"อาอีซะห์ แวมุหะมะ","count":5,"fileCount":5},{"no":108,"name":"อับดุลรอยะ ยายอ","count":5,"fileCount":5},{"no":109,"name":"Kakyah kakyah","count":5,"fileCount":5},{"no":110,"name":"ฮามีเดาะ แลมีซอ","count":5,"fileCount":5},{"no":111,"name":"Layar Keinsafan","count":5,"fileCount":5},{"no":112,"name":"Chai Lanong","count":5,"fileCount":5},{"no":113,"name":"Nur Fatin","count":5,"fileCount":5},{"no":114,"name":"Cinta Syurga","count":5,"fileCount":5},{"no":115,"name":"Minnie Habibie","count":5,"fileCount":5},{"no":116,"name":"Mu-in Mulet","count":5,"fileCount":5},{"no":117,"name":"แตเตาะห์ มายอ","count":5,"fileCount":5},{"no":118,"name":"รักแท้ แพ้คนใกล้ตัว","count":5,"fileCount":5},{"no":119,"name":"อาแอเสาะ แวดะซง","count":5,"fileCount":5},{"no":120,"name":"มะ และห์","count":5,"fileCount":5},{"no":121,"name":"Yasmin min","count":5,"fileCount":5},{"no":122,"name":"Yah yah","count":7,"fileCount":5},{"no":123,"name":"นิซำเซียะ นิเดร์","count":5,"fileCount":5},{"no":124,"name":"Yariya baha","count":5,"fileCount":5},{"no":125,"name":"สุวรรณี เต๊ะหวัง","count":5,"fileCount":5},{"no":126,"name":"Pateemah deeree","count":5,"fileCount":5},{"no":127,"name":"Mamee Fitree romdon","count":5,"fileCount":5},{"no":128,"name":"Ana Asaff","count":5,"fileCount":5},{"no":129,"name":"ตอเฮ ตาเยะ","count":5,"fileCount":5},{"no":130,"name":"อัฟฟาน อาแซ","count":5,"fileCount":5},{"no":131,"name":"Nuruslah Ni-ma","count":5,"fileCount":5},{"no":132,"name":"สำคัญบาง เวลา","count":5,"fileCount":5},{"no":133,"name":"รอฮานี โตะบา","count":5,"fileCount":5},{"no":134,"name":"ขอแค่ เหมือนเดิม","count":5,"fileCount":5},{"no":135,"name":"รอกีเยาะ กาเซ็ง","count":5,"fileCount":5},{"no":136,"name":"Nasadia binti hama","count":5,"fileCount":5},{"no":137,"name":"Abu hasan","count":5,"fileCount":5},{"no":138,"name":"Yaya yunu","count":5,"fileCount":5},{"no":139,"name":"Cahaya E-man","count":5,"fileCount":5},{"no":140,"name":"Ana khola","count":5,"fileCount":5},{"no":141,"name":"Soleehah Rapyoon","count":5,"fileCount":5},{"no":142,"name":"Nurfirdow ismail","count":5,"fileCount":5},{"no":143,"name":"นูรียะ ฆานิเซ็ง","count":5,"fileCount":5},{"no":144,"name":"Siti Yah","count":5,"fileCount":5},{"no":145,"name":"ซารีพะห์ ริจิ","count":5,"fileCount":5},{"no":146,"name":"Waepreeda Cheenarong","count":5,"fileCount":5},{"no":147,"name":"Ameenoh Sama-ae","count":5,"fileCount":5},{"no":148,"name":"Aminah yusof","count":5,"fileCount":5},{"no":149,"name":"NurAulya NurAulfa damaloh","count":5,"fileCount":5},{"no":150,"name":"อิบนูกอเซ็ม เซ็ม","count":5,"fileCount":5},{"no":151,"name":"Muslim Ised","count":5,"fileCount":5},{"no":152,"name":"คนดี ไม่พอ","count":5,"fileCount":5},{"no":153,"name":"สูไวบะห์ สูดิง","count":5,"fileCount":5},{"no":154,"name":"โนรฮาซีกิน แดมายุ","count":5,"fileCount":5},{"no":155,"name":"โนรรียา โซะโก","count":5,"fileCount":5},{"no":156,"name":"Suhaila makeh","count":5,"fileCount":5},{"no":157,"name":"อะไรหว่า ไม่รู้","count":5,"fileCount":5},{"no":158,"name":"Nasron Nadeef","count":5,"fileCount":5},{"no":159,"name":"Nurma che soh","count":5,"fileCount":5},{"no":160,"name":"สุมาณี บูเอียด","count":5,"fileCount":5},{"no":161,"name":"สุไรดา สาแม","count":5,"fileCount":5},{"no":162,"name":"Sipah waenanat","count":5,"fileCount":5},{"no":163,"name":"Sureeya Yering","count":5,"fileCount":5},{"no":164,"name":"ซารีตา อีแต","count":5,"fileCount":5},{"no":165,"name":"Ananda dada","count":5,"fileCount":5},{"no":166,"name":"Muhammadruslan dehmaea","count":5,"fileCount":5},{"no":167,"name":"Rosnee waemosor","count":5,"fileCount":5},{"no":168,"name":"Ati-soh lanong","count":5,"fileCount":5},{"no":169,"name":"คนสำคัญไม่ต้อง พยายาม","count":5,"fileCount":5},{"no":170,"name":"Koreeyoh dueramae","count":5,"fileCount":5},{"no":171,"name":"Rohimah Chehdaoh","count":5,"fileCount":5},{"no":172,"name":"Kak yah nab","count":5,"fileCount":5},{"no":173,"name":"Ab dee","count":5,"fileCount":5},{"no":174,"name":"กุหลาบ แดง","count":5,"fileCount":5},{"no":175,"name":"Ana nisaa Ul husna","count":5,"fileCount":5},{"no":176,"name":"มารูณี มะอายุ","count":5,"fileCount":5},{"no":177,"name":"Teeti Lava","count":5,"fileCount":5},{"no":178,"name":"Hambamu Yangber Shukur","count":5,"fileCount":5},{"no":179,"name":"นุรลีนา ดอนิ","count":5,"fileCount":5},{"no":180,"name":"รุสดา รุสดาน","count":5,"fileCount":5},{"no":181,"name":"Nudhayatee Sohmah","count":5,"fileCount":5},{"no":182,"name":"Cinta Mutiara","count":5,"fileCount":5},{"no":183,"name":"Noreeda soh","count":5,"fileCount":5},{"no":184,"name":"สูใบดะ ดาฮารี","count":5,"fileCount":5},{"no":185,"name":"Yatee hajeejeama","count":5,"fileCount":5},{"no":186,"name":"Kak ichah","count":5,"fileCount":5},{"no":187,"name":"ฮัสวานี ดวงสาเม๊าะ","count":5,"fileCount":5},{"no":188,"name":"Phatimoh domae","count":5,"fileCount":5},{"no":189,"name":"Pah kabae","count":5,"fileCount":5},{"no":190,"name":"Neena Ebadullah","count":5,"fileCount":5},{"no":191,"name":"Cinta mesra","count":5,"fileCount":5},{"no":192,"name":"BalQis Naemdulea","count":5,"fileCount":5},{"no":193,"name":"มารีนา นา","count":5,"fileCount":5},{"no":194,"name":"บาซีละฮ์ ทองตำ","count":5,"fileCount":5},{"no":195,"name":"Kanung Namsakun","count":5,"fileCount":5},{"no":196,"name":"Rusnainee Mahamatrasari","count":5,"fileCount":5},{"no":197,"name":"Subaidah awae","count":5,"fileCount":5},{"no":198,"name":"Padilah sa-i","count":5,"fileCount":5},{"no":199,"name":"Ajis nara","count":5,"fileCount":5},{"no":200,"name":"ซานียาห์ โตะลูอาล๊ะ","count":5,"fileCount":5},{"no":201,"name":"Nuriyah Cheseni","count":5,"fileCount":5},{"no":202,"name":"บัลกิส มะแซ","count":5,"fileCount":5},{"no":203,"name":"สานีตา มะแซ","count":5,"fileCount":5},{"no":204,"name":"Nurfafa Hawae","count":5,"fileCount":5},{"no":205,"name":"Siti pi","count":5,"fileCount":5},{"no":206,"name":"Royanah masae","count":5,"fileCount":5},{"no":207,"name":"บทเรียน สอนชีวิต","count":5,"fileCount":5},{"no":208,"name":"Pranee suttikan","count":5,"fileCount":5},{"no":209,"name":"ฮาซีเยาะ แวเซ็ง","count":5,"fileCount":5},{"no":210,"name":"Robidi maming","count":5,"fileCount":5},{"no":211,"name":"Rosuemoh Mus Tafa","count":5,"fileCount":5},{"no":212,"name":"เฟา ซาน","count":5,"fileCount":5},{"no":213,"name":"Pateemah tohsona","count":5,"fileCount":5},{"no":214,"name":"Wihah saweehah","count":5,"fileCount":5},{"no":215,"name":"ฮามา บาโอะ","count":5,"fileCount":5},{"no":216,"name":"รอฮานา สาและ","count":5,"fileCount":5},{"no":217,"name":"Rokeeyoh maha","count":5,"fileCount":5},{"no":218,"name":"Sakeeroh wae kadir","count":5,"fileCount":5},{"no":219,"name":"Asiyah abas","count":5,"fileCount":5},{"no":220,"name":"Fadeal samae","count":5,"fileCount":5},{"no":221,"name":"มุมีนะห์ มุมิน","count":5,"fileCount":5},{"no":222,"name":"Na dee ya","count":5,"fileCount":5},{"no":223,"name":"Amnah Ismail","count":5,"fileCount":5},{"no":224,"name":"Mariam salaeh","count":5,"fileCount":5},{"no":225,"name":"แอเสาะ บือราเฮง","count":5,"fileCount":5},{"no":226,"name":"Sofe fatin","count":5,"fileCount":5},{"no":227,"name":"รอฮะนา ลิมะเซ็ง","count":5,"fileCount":5},{"no":228,"name":"Aminoh alee","count":5,"fileCount":5},{"no":229,"name":"ซากีนะ ยามา","count":5,"fileCount":5},{"no":230,"name":"นัสรุดดีน สะอะ","count":5,"fileCount":5},{"no":231,"name":"I-feek Eem","count":5,"fileCount":5},{"no":232,"name":"ซากีนะห์มะมิง","count":5,"fileCount":5},{"no":233,"name":"Najwa salaeh","count":5,"fileCount":5},{"no":234,"name":"Kaudalam doaku","count":5,"fileCount":5},{"no":235,"name":"ฮัสนะห์ ดอเลาะ","count":5,"fileCount":5},{"no":236,"name":"Yawareeyah tokkaji","count":5,"fileCount":5},{"no":237,"name":"Nasrin nanee","count":5,"fileCount":5},{"no":238,"name":"Tuanrokiyah lochi","count":5,"fileCount":5},{"no":239,"name":"Nor aini maming","count":5,"fileCount":5},{"no":240,"name":"fitree esor","count":5,"fileCount":5},{"no":241,"name":"nuarfisa kachi","count":5,"fileCount":5},{"no":242,"name":"มีล๊ะ ตาเละ","count":5,"fileCount":5},{"no":243,"name":"Naseela benz","count":5,"fileCount":5},{"no":244,"name":"กะจิ มะเซ็ง","count":5,"fileCount":5},{"no":245,"name":"Hamidah banpho","count":5,"fileCount":5},{"no":246,"name":"Fawaba haty","count":5,"fileCount":5},{"no":247,"name":"Fan dee","count":5,"fileCount":5},{"no":248,"name":"Ninurkoyah doloh","count":5,"fileCount":5},{"no":249,"name":"รอมาฉ๊ะ ดาราแม","count":5,"fileCount":5},{"no":250,"name":"อามีเนาะ เจะนิ","count":5,"fileCount":5},{"no":251,"name":"Mariyoh salaeh","count":5,"fileCount":5},{"no":252,"name":"ซอ ลีฮีน","count":5,"fileCount":5},{"no":253,"name":"นูรซาวาณี มะมิง","count":5,"fileCount":5},{"no":254,"name":"กะเสาะห์ อีแต","count":5,"fileCount":5},{"no":255,"name":"Saehrah saeya","count":5,"fileCount":5},{"no":256,"name":"Wanita muslimah","count":5,"fileCount":5},{"no":257,"name":"ซา เดีย","count":5,"fileCount":5},{"no":258,"name":"Paaisah sideh","count":5,"fileCount":5},{"no":259,"name":"Mareeyam deng","count":5,"fileCount":5},{"no":260,"name":"Munah dorseng","count":5,"fileCount":5},{"no":261,"name":"Rusmeena chemoh","count":5,"fileCount":5},{"no":262,"name":"Roseedah sa’aseng","count":5,"fileCount":5},{"no":263,"name":"Masitah jawaeduloh","count":5,"fileCount":5},{"no":264,"name":"Sudaidah datok","count":5,"fileCount":5},{"no":265,"name":"ดิง มะรูดิง","count":5,"fileCount":5},{"no":266,"name":"การีม๊ะ อาแว","count":5,"fileCount":5},{"no":267,"name":"F’fah doloh","count":5,"fileCount":5},{"no":268,"name":"วนิดา ตาเย๊ะ","count":5,"fileCount":5},{"no":269,"name":"รอฮานา สะมะแอ","count":5,"fileCount":5},{"no":270,"name":"Sana moolem","count":5,"fileCount":5},{"no":271,"name":"นอยาสะนิง ปะจูกูเล็ง","count":5,"fileCount":5},{"no":272,"name":"ซารีนา ลอเซ็.","count":5,"fileCount":5},{"no":273,"name":"Mami nasuha","count":5,"fileCount":5},{"no":274,"name":"ฮาซีเมาะ เดร์","count":5,"fileCount":5},{"no":275,"name":"Maseetoh samae","count":5,"fileCount":5},{"no":276,"name":"Rubiyah didik","count":5,"fileCount":5},{"no":277,"name":"ฟารีดะห์ มามา","count":5,"fileCount":5},{"no":278,"name":"ปาตีเมาะ เปาะหะ","count":5,"fileCount":5},{"no":279,"name":"กลาซง ขาเดร์","count":5,"fileCount":5},{"no":280,"name":"Taofiq bacho","count":5,"fileCount":5},{"no":281,"name":"Ka’a noh","count":5,"fileCount":5},{"no":282,"name":"Ismi Abdulhakim","count":5,"fileCount":5},{"no":283,"name":"Sp cinta","count":5,"fileCount":5},{"no":284,"name":"Rahimah rose","count":5,"fileCount":5},{"no":285,"name":"Sakinah sareep","count":5,"fileCount":5},{"no":286,"name":"Chery cat","count":5,"fileCount":5},{"no":287,"name":"ซำเซียะ บากา","count":5,"fileCount":5},{"no":288,"name":"Nurhafeefh naemdulae","count":8,"fileCount":5},{"no":289,"name":"นุอิหซาน อาแวเตะ","count":5,"fileCount":5},{"no":290,"name":"Mariam tingraya","count":5,"fileCount":5},{"no":291,"name":"Pasiyah masa","count":5,"fileCount":5},{"no":292,"name":"Mhammadsupian lateh","count":5,"fileCount":5},{"no":293,"name":"Suda kawaing","count":5,"fileCount":5},{"no":294,"name":"ดาเลีย อีแม","count":5,"fileCount":5},{"no":295,"name":"แวตอยบ๊ะ เกือสิติ","count":5,"fileCount":5},{"no":296,"name":"Fatimah wanig","count":5,"fileCount":5},{"no":297,"name":"Temanseja ti","count":5,"fileCount":5},{"no":298,"name":"Chahaya eman","count":5,"fileCount":5},{"no":299,"name":"ฮายาตี สุดิง ฮายาตี สุดิง","count":5,"fileCount":5},{"no":300,"name":"ซารีฟะห์ อูซ็ง","count":5,"fileCount":5},{"no":301,"name":"Sakeeroh sa-mae","count":5,"fileCount":5},{"no":302,"name":"จิยะห์ แบยา","count":5,"fileCount":5},{"no":303,"name":"บือเสาะ มะหลี","count":5,"fileCount":5},{"no":304,"name":"รอฮานา แก้วกับเส็น","count":5,"fileCount":5},{"no":305,"name":"เจ็บแล้ว จำ","count":5,"fileCount":5},{"no":306,"name":"Eye nee","count":5,"fileCount":5},{"no":307,"name":"ดุนยา คือทางผ่าน","count":5,"fileCount":5},{"no":308,"name":"นูรไอนี สาแม","count":5,"fileCount":5},{"no":309,"name":"Wan-azizah sulaiman","count":5,"fileCount":5},{"no":310,"name":"ฮานาฟี ทาหะ","count":5,"fileCount":5},{"no":311,"name":"กัสมะห์ สาระ","count":5,"fileCount":5},{"no":312,"name":"เมาะซา ซากีน๊ะ","count":5,"fileCount":5},{"no":313,"name":"ทำเพื่อ เทอ","count":5,"fileCount":5},{"no":314,"name":"ณีร์ จังงง","count":5,"fileCount":5},{"no":315,"name":"Ditinee tashanee","count":5,"fileCount":5},{"no":316,"name":"Mamy anis alia","count":5,"fileCount":5},{"no":317,"name":"Ana ruhanee","count":5,"fileCount":5},{"no":318,"name":"Bulan Bernama","count":5,"fileCount":5},{"no":319,"name":"Muhammanur niseng","count":5,"fileCount":5},{"no":320,"name":"แมะสง คาเดร์","count":5,"fileCount":5},{"no":321,"name":"Suraidah yeeloh","count":5,"fileCount":5},{"no":322,"name":"Patimoh maethalong","count":5,"fileCount":5},{"no":323,"name":"Asmadee awaekaji","count":5,"fileCount":5},{"no":324,"name":"Istikharah cinta","count":5,"fileCount":5},{"no":325,"name":"Eman abdulanung","count":5,"fileCount":5},{"no":326,"name":"แสนดี ที่มีแต่เจ็บ","count":5,"fileCount":5},{"no":327,"name":"Mona tebingmah","count":5,"fileCount":5},{"no":328,"name":"Nuaisah yeh","count":5,"fileCount":5},{"no":329,"name":"Kasih pada mu","count":5,"fileCount":5},{"no":330,"name":"นาซูฮา อับดุลลี","count":5,"fileCount":5},{"no":331,"name":"Masenah dokoye","count":5,"fileCount":5},{"no":332,"name":"ลีเยาะ ดอเลาะ","count":5,"fileCount":5},{"no":333,"name":"Alisa uma","count":5,"fileCount":5},{"no":334,"name":"Hanura waloh","count":5,"fileCount":5},{"no":335,"name":"Farisa wateh","count":5,"fileCount":5},{"no":336,"name":"ฟา ฟา","count":6,"fileCount":5},{"no":337,"name":"Waeyoh molo","count":5,"fileCount":5},{"no":338,"name":"Hayatee sau","count":5,"fileCount":5},{"no":339,"name":"Hasiyah cheha","count":7,"fileCount":5},{"no":340,"name":"อุมมี ฮาซานะห์","count":5,"fileCount":5},{"no":341,"name":"อาฮามัด แวหะยี","count":5,"fileCount":5},{"no":342,"name":"ระยะทางพิสูจน์แรงม้า กาลเวลาพิสูจน์คน","count":5,"fileCount":5},{"no":343,"name":"ซารีฮ๊ะ มะบาราเกะ","count":5,"fileCount":5},{"no":344,"name":"Ruyana awaekueji","count":5,"fileCount":5},{"no":345,"name":"รอพีอ๊ะ แลแมแน","count":5,"fileCount":5},{"no":346,"name":"Hanee rohanee","count":5,"fileCount":5},{"no":347,"name":"Ummi Muslimah","count":5,"fileCount":5},{"no":348,"name":"Red dahlia","count":5,"fileCount":5},{"no":349,"name":"Mom’m fa","count":5,"fileCount":5},{"no":350,"name":"หัวใจ ผู้ศรัทธา","count":5,"fileCount":5},{"no":351,"name":"Wan-az che-musa","count":5,"fileCount":5},{"no":352,"name":"Sirinaida tohsa","count":5,"fileCount":5},{"no":353,"name":"Nurma chena","count":5,"fileCount":5},{"no":354,"name":"Nifayiyah lohna","count":5,"fileCount":5},{"no":355,"name":"Arteekah ys","count":5,"fileCount":5},{"no":356,"name":"Nurunajmee pokno","count":5,"fileCount":5},{"no":357,"name":"Na fit","count":5,"fileCount":5},{"no":358,"name":"Mamy sharih","count":5,"fileCount":5},{"no":359,"name":"Wafi padi","count":10,"fileCount":5},{"no":360,"name":"Firdaw yaena","count":5,"fileCount":5},{"no":361,"name":"สุไรดา สะและมิง","count":5,"fileCount":5},{"no":362,"name":"Suhana chemat","count":5,"fileCount":5},{"no":363,"name":"Nurida awae","count":10,"fileCount":5},{"no":364,"name":"Amanee matroseh","count":5,"fileCount":5},{"no":365,"name":"นูรียะห์ ยา","count":10,"fileCount":5},{"no":366,"name":"Nursafeela abdulhalem","count":5,"fileCount":5},{"no":367,"name":"Faesah lohah","count":5,"fileCount":5},{"no":368,"name":"Hayashihit murang","count":5,"fileCount":5},{"no":369,"name":"Seetee suree","count":5,"fileCount":5},{"no":370,"name":"Seeree moh","count":5,"fileCount":5},{"no":371,"name":"Husna Sarika","count":5,"fileCount":5},{"no":372,"name":"Fara abbas","count":5,"fileCount":5},{"no":373,"name":"โซฟียา สะลามา","count":5,"fileCount":5},{"no":374,"name":"N’ong Z’aza","count":5,"fileCount":5},{"no":375,"name":"อามีนา อุมา","count":5,"fileCount":5},{"no":376,"name":"คน ของจัย’ย นัยสายตาเทอ","count":5,"fileCount":5},{"no":377,"name":"Nur asma","count":8,"fileCount":5},{"no":378,"name":"Aman damai","count":5,"fileCount":5},{"no":379,"name":"Abas naim","count":5,"fileCount":5},{"no":380,"name":"มามี้ ชามิ้ง","count":5,"fileCount":5},{"no":381,"name":"Arlisa chinit","count":5,"fileCount":5},{"no":382,"name":"Fatinee dromea","count":5,"fileCount":5},{"no":383,"name":"Nurlaila yingo","count":5,"fileCount":5},{"no":384,"name":"Sareemah doloh","count":5,"fileCount":5},{"no":385,"name":"Daenif zulfa","count":5,"fileCount":5},{"no":386,"name":"Rainee lona","count":5,"fileCount":5},{"no":387,"name":"Mareenee sareh","count":5,"fileCount":5},{"no":388,"name":"Aidan adyan","count":6,"fileCount":5},{"no":389,"name":"Kasma saleh","count":5,"fileCount":5},{"no":390,"name":"Marisa tasa","count":5,"fileCount":5},{"no":391,"name":"Atirah salaeh","count":5,"fileCount":5},{"no":392,"name":"La nurzeela","count":5,"fileCount":5},{"no":393,"name":"Mami furqon jasmin","count":11,"fileCount":5},{"no":394,"name":"Poppy AsS-Neem","count":5,"fileCount":5},{"no":395,"name":"มามี้ ตัสนิม","count":5,"fileCount":5},{"no":396,"name":"Ning sananing","count":5,"fileCount":5},{"no":397,"name":"Fa da’a","count":5,"fileCount":5},{"no":398,"name":"ก้ะละห์ เย็บผ้า","count":5,"fileCount":5},{"no":399,"name":"Suhaili moeyima","count":5,"fileCount":5},{"no":400,"name":"Afzoh sangdaewa","count":5,"fileCount":5},{"no":401,"name":"Nurulhuda kariya","count":5,"fileCount":5},{"no":402,"name":"Areenee waeei","count":5,"fileCount":5},{"no":403,"name":"กะดา บินอารี","count":5,"fileCount":5},{"no":404,"name":"K’ying toyeebah","count":5,"fileCount":5},{"no":405,"name":"ปาตีเมาะ กีลีมอ","count":5,"fileCount":5},{"no":406,"name":"D’dada kitty","count":5,"fileCount":5},{"no":407,"name":"Subaidah cikdah tohseng","count":5,"fileCount":5},{"no":408,"name":"ยารอด๊ะ กาแต","count":5,"fileCount":5},{"no":409,"name":"Nur haseemah","count":5,"fileCount":5},{"no":410,"name":"Naazneen sy","count":5,"fileCount":5},{"no":411,"name":"Susanie samuning","count":5,"fileCount":5},{"no":412,"name":"Asura che-gnoh","count":5,"fileCount":5},{"no":413,"name":"Eilyanee ibrahim","count":5,"fileCount":5},{"no":414,"name":"Nurwafar nazira","count":5,"fileCount":5},{"no":415,"name":"S’uriatee tee hawi","count":6,"fileCount":5},{"no":416,"name":"Maliha kayuni","count":5,"fileCount":5},{"no":417,"name":"Nurhaya awer","count":5,"fileCount":5},{"no":418,"name":"masna cheraning","count":5,"fileCount":5},{"no":419,"name":"รุสนิง การียา","count":5,"fileCount":5},{"no":420,"name":"ซารีฟ. ซาฟา. ซาอีดะห์","count":5,"fileCount":5},{"no":421,"name":"Nu Riihaa BiinSahaa","count":5,"fileCount":5},{"no":422,"name":"Aishah binmamat","count":5,"fileCount":5},{"no":423,"name":"Nurihan ang awaer","count":5,"fileCount":5},{"no":424,"name":"Tee nurahayatee","count":5,"fileCount":5},{"no":425,"name":"Saneesa chekoh","count":5,"fileCount":5},{"no":426,"name":"Ummi adawiyah","count":5,"fileCount":5},{"no":427,"name":"ซูซานา สือนิ","count":5,"fileCount":5},{"no":428,"name":"อาซีซ๊ะฮ กะนอง","count":5,"fileCount":5},{"no":429,"name":"ฮาฟีซา มือลี","count":5,"fileCount":5},{"no":430,"name":"Salemoe chamar","count":5,"fileCount":5},{"no":431,"name":"Miya anis","count":5,"fileCount":5},{"no":432,"name":"Mimee hamdee","count":5,"fileCount":5},{"no":433,"name":"ฟาอีซะ อารงค์","count":5,"fileCount":5},{"no":434,"name":"Daneeyah sama-ae","count":5,"fileCount":5},{"no":435,"name":"Nureehan kalong","count":5,"fileCount":5},{"no":436,"name":"ฮัมซะห์ เต๊ะ","count":8,"fileCount":5},{"no":437,"name":"Rusnamee binchema","count":5,"fileCount":5},{"no":438,"name":"Safira fira","count":5,"fileCount":5},{"no":439,"name":"Najwa maseng","count":5,"fileCount":5},{"no":440,"name":"Kamisah sah","count":5,"fileCount":5},{"no":441,"name":"Saitong bakarang","count":5,"fileCount":5},{"no":442,"name":"Tuanhalyisah tuwaemudo","count":5,"fileCount":5},{"no":443,"name":"Suwaibah bah","count":5,"fileCount":5},{"no":444,"name":"ม๊ามี้ ชาวาล์","count":5,"fileCount":5},{"no":445,"name":"K’ma salaeh","count":5,"fileCount":5},{"no":446,"name":"Saedah laya","count":5,"fileCount":5},{"no":447,"name":"Husna nana","count":5,"fileCount":5},{"no":448,"name":"Yuraidah nokniloh","count":5,"fileCount":5},{"no":449,"name":"Sa sa","count":5,"fileCount":5},{"no":450,"name":"Mareenee masong","count":5,"fileCount":5},{"no":451,"name":"Mami wawa sofee uma","count":5,"fileCount":5},{"no":452,"name":"Salihah jehli","count":5,"fileCount":5},{"no":453,"name":"Nur-asam shk","count":5,"fileCount":5},{"no":454,"name":"Irfan paehoh-ele","count":6,"fileCount":5},{"no":455,"name":"Ros cherohanee","count":5,"fileCount":5},{"no":456,"name":"Pa pa jasmin","count":5,"fileCount":5},{"no":457,"name":"Dihatiku tulis nama mu","count":5,"fileCount":5},{"no":458,"name":"Faranee nee","count":5,"fileCount":5},{"no":459,"name":"Sapawee yusoh","count":5,"fileCount":5},{"no":460,"name":"นุรแยฟา สมาแอ","count":5,"fileCount":5},{"no":461,"name":"มาซกะห์ มะ","count":5,"fileCount":5},{"no":462,"name":"มูฮัมหมัดวากิฟ ดิง","count":5,"fileCount":5},{"no":463,"name":"รอฮานี สูหลง","count":8,"fileCount":5},{"no":464,"name":"อาฟิส อาลิฟ อานัส","count":5,"fileCount":5},{"no":465,"name":"Jaa nareesa","count":5,"fileCount":5},{"no":466,"name":"Asuelan gual","count":8,"fileCount":5},{"no":467,"name":"Rosnah ardola","count":5,"fileCount":5},{"no":468,"name":"Malisa aqif","count":5,"fileCount":5},{"no":469,"name":"Fatihah HAHUMAIRA AWAE","count":5,"fileCount":5},{"no":470,"name":"Yameela lee","count":5,"fileCount":5},{"no":471,"name":"Asmaning ibrahim","count":5,"fileCount":5},{"no":472,"name":"Taetoh yah","count":5,"fileCount":5},{"no":473,"name":"Nur nee","count":5,"fileCount":5},{"no":474,"name":"Sapaeing sanumah","count":5,"fileCount":5},{"no":475,"name":"Nur hayatee","count":8,"fileCount":5},{"no":476,"name":"Ahamat selaemae","count":5,"fileCount":5},{"no":477,"name":"Nadeelah umoodee","count":5,"fileCount":5},{"no":478,"name":"Yahya ardae","count":5,"fileCount":5},{"no":479,"name":"Embun pagi","count":5,"fileCount":5},{"no":480,"name":"Kuucing puutih","count":5,"fileCount":5},{"no":481,"name":"ดอกไม้ ที่สวยงาม","count":5,"fileCount":5},{"no":482,"name":"Areesa c’bu","count":5,"fileCount":5},{"no":483,"name":"Jekropiyoh manya","count":5,"fileCount":5},{"no":484,"name":"นูรีดา พระยีเกะ","count":5,"fileCount":5},{"no":485,"name":"Raina yusuf","count":5,"fileCount":5},{"no":486,"name":"Suraida arong","count":5,"fileCount":5},{"no":487,"name":"รูสานา ดามาแร","count":5,"fileCount":5},{"no":488,"name":"กะ จา","count":5,"fileCount":5},{"no":489,"name":"Sarihah chikami","count":5,"fileCount":5},{"no":490,"name":"Muhammad adil amah","count":5,"fileCount":5},{"no":491,"name":"นุรกายานี สาเมาะ","count":5,"fileCount":5},{"no":492,"name":"อาอีด๊ะ มะแซ","count":5,"fileCount":5},{"no":493,"name":"Nureesan malasae","count":5,"fileCount":5},{"no":494,"name":"Satu hilang dua terbilang","count":5,"fileCount":5},{"no":495,"name":"R rosmnee sh","count":5,"fileCount":5},{"no":496,"name":"Sa ra’a","count":5,"fileCount":5},{"no":497,"name":"Naeedaa seng","count":5,"fileCount":5},{"no":498,"name":"Aishah jijai","count":5,"fileCount":5},{"no":499,"name":"Wan samai","count":5,"fileCount":5},{"no":500,"name":"เริ่มต้นใหม่ ได้เสมอ","count":5,"fileCount":5},{"no":501,"name":"Husna Abdulrahman","count":5,"fileCount":5},{"no":502,"name":"Alia samaae","count":5,"fileCount":5},{"no":503,"name":"Hadee mingsoo","count":5,"fileCount":5},{"no":504,"name":"Bangsof maya","count":5,"fileCount":5},{"no":505,"name":"Latipah mamat","count":5,"fileCount":5},{"no":506,"name":"Mir najmee","count":5,"fileCount":5},{"no":507,"name":"Bulan Bintang","count":5,"fileCount":5},{"no":508,"name":"Fatin wadeng","count":5,"fileCount":5},{"no":509,"name":"สิบเจ็ด พฤศจิกา","count":5,"fileCount":5},{"no":510,"name":"Yawaree yah","count":5,"fileCount":5},{"no":511,"name":"Yah tayong","count":5,"fileCount":5},{"no":512,"name":"Ibu pertiwi","count":5,"fileCount":5},{"no":513,"name":"Napeesah hamat","count":5,"fileCount":5},{"no":514,"name":"รุสไมนี หะมะ","count":5,"fileCount":5},{"no":515,"name":"Nurhuda hasan","count":5,"fileCount":5},{"no":516,"name":"Fara chbi","count":5,"fileCount":5},{"no":517,"name":"Mahamar chehamat","count":5,"fileCount":5},{"no":518,"name":"สุวณีย์ วาเลาะ","count":5,"fileCount":5},{"no":519,"name":"ตอฮีเราะ จาหลง","count":5,"fileCount":5},{"no":520,"name":"มิตรภาพ สาวนุ้ย","count":5,"fileCount":5},{"no":521,"name":"กะเม๊าะ ลอเด็ง","count":5,"fileCount":5},{"no":522,"name":"Ropie cheha","count":5,"fileCount":5},{"no":523,"name":"Rahanee sani","count":5,"fileCount":5},{"no":524,"name":"Asiyah abdulrahman","count":5,"fileCount":5},{"no":525,"name":"Haeh teena","count":5,"fileCount":5},{"no":526,"name":"Wang sasa","count":5,"fileCount":5},{"no":527,"name":"ไซนับ สะดียามู","count":5,"fileCount":5},{"no":528,"name":"ยิ่งโดนทิ้ง ยิ่งต้องสวย","count":5,"fileCount":5},{"no":529,"name":"Mayunai the","count":5,"fileCount":5},{"no":530,"name":"Naphisah ala","count":5,"fileCount":5},{"no":531,"name":"กะเน๊าะ หมอนวดแผนโบราณ","count":5,"fileCount":5},{"no":532,"name":"Mint nurhayatee","count":5,"fileCount":5},{"no":533,"name":"Anseena doloh","count":5,"fileCount":5},{"no":534,"name":"Suwaibah sulai","count":5,"fileCount":5},{"no":535,"name":"คอลาตี เระสะอะ","count":5,"fileCount":5},{"no":536,"name":"อนันต์ เขตเทพา","count":5,"fileCount":5},{"no":537,"name":"ฮาสือเมาะ อาแวกือจิ","count":5,"fileCount":5},{"no":538,"name":"Hayattree baeloh","count":5,"fileCount":5},{"no":539,"name":"รูหานี ยูโซะ","count":5,"fileCount":5},{"no":540,"name":"Rahayanee lateh","count":5,"fileCount":5},{"no":541,"name":"Muslimah hasanah","count":5,"fileCount":5},{"no":542,"name":"ฮุสนี เล๊ะนุ๊","count":5,"fileCount":5},{"no":543,"name":"Jawaher bana","count":5,"fileCount":5},{"no":544,"name":"Rosiyoh yaba","count":5,"fileCount":5},{"no":545,"name":"การีมา สะมะแอ","count":5,"fileCount":5},{"no":546,"name":"มูฮำหมัดไฟซอล แซกะ","count":5,"fileCount":5},{"no":547,"name":"ซารียะห์ บินลอดิง","count":5,"fileCount":5},{"no":548,"name":"กะเญอะ กือจา","count":5,"fileCount":5},{"no":549,"name":"รอมือเล๊าะ วาเด็ง","count":5,"fileCount":5},{"no":550,"name":"เจนุ แอนดี","count":5,"fileCount":5},{"no":551,"name":"แวอาหามะ แวดือเระ","count":5,"fileCount":5},{"no":552,"name":"Anis seemak","count":5,"fileCount":5},{"no":553,"name":"Anak melayu","count":5,"fileCount":5},{"no":554,"name":"Sasunie samuning","count":5,"fileCount":5},{"no":555,"name":"Permata suci","count":5,"fileCount":5},{"no":556,"name":"ซุลฟาร์ มัยเซ่ง","count":5,"fileCount":5},{"no":557,"name":"ฟาฏิล สาและ","count":5,"fileCount":5},{"no":558,"name":"suriya ini","count":5,"fileCount":5},{"no":559,"name":"fatmawatee maleewa","count":5,"fileCount":5},{"no":560,"name":"skarti kache","count":5,"fileCount":5},{"no":561,"name":"Yusra doromae","count":5,"fileCount":5},{"no":562,"name":"ยัย หลินนน","count":5,"fileCount":5},{"no":563,"name":"Suhaira samamae","count":5,"fileCount":5},{"no":564,"name":"ฟาร่า งามอยู่","count":5,"fileCount":5},{"no":565,"name":"Rusnaning cha u seng","count":5,"fileCount":5},{"no":566,"name":"Rose candy","count":5,"fileCount":5},{"no":567,"name":"Sooraida lateh","count":5,"fileCount":5},{"no":568,"name":"N’nurhafifi y’yusuh","count":5,"fileCount":5},{"no":569,"name":"Hilman hilme sa-a","count":5,"fileCount":5},{"no":570,"name":"ดีโก มายอีลิม","count":5,"fileCount":5},{"no":571,"name":"Nihafeesa sa mueheng","count":5,"fileCount":5},{"no":572,"name":"Mamy shamin","count":5,"fileCount":5},{"no":573,"name":"พาซียะ แวดอเลาะ","count":5,"fileCount":5},{"no":574,"name":"Bismilla awea","count":5,"fileCount":5},{"no":575,"name":"มีมินทร์ ฟรุ่งฟริ้ง","count":5,"fileCount":5},{"no":576,"name":"กะนะห์ บูติก","count":5,"fileCount":5},{"no":577,"name":"Hasnah Samani","count":5,"fileCount":5},{"no":578,"name":"นูรไอมาน เจะเลาะ","count":5,"fileCount":5},{"no":579,"name":"Yaya love","count":5,"fileCount":5},{"no":580,"name":"อารีฟีน นน","count":5,"fileCount":5},{"no":581,"name":"Anantaya laksanaut","count":5,"fileCount":5},{"no":582,"name":"Ameenah darading","count":5,"fileCount":5},{"no":583,"name":"คอลลา ฮาซานะห์","count":5,"fileCount":5},{"no":584,"name":"Chaminah mamak","count":5,"fileCount":5},{"no":585,"name":"Kismeri khan","count":5,"fileCount":5},{"no":586,"name":"พาวาตี พงค์เกษม","count":5,"fileCount":5},{"no":587,"name":"ใช้เวลา ให้คุ้มค่าที่สุด","count":4,"fileCount":4},{"no":588,"name":"Sulanee poklak","count":4,"fileCount":4},{"no":589,"name":"เงียบแต่ไม่โง่ รู้หมดแต่ไม่พูด","count":4,"fileCount":4},{"no":590,"name":"N-Safi’ya T-Khormao","count":4,"fileCount":4},{"no":591,"name":"Fuziyah teatoh takeh","count":4,"fileCount":4},{"no":592,"name":"Arifeen hasa","count":4,"fileCount":4},{"no":593,"name":"โสฟียะห์ เด็งซี","count":4,"fileCount":4},{"no":594,"name":"sulaiman musa","count":4,"fileCount":4},{"no":595,"name":"marosee chesaeh","count":4,"fileCount":4},{"no":596,"name":"มีน่า คะหะปะนะ","count":4,"fileCount":4},{"no":597,"name":"Sania sayu","count":4,"fileCount":4},{"no":598,"name":"Yubaidah mahae","count":4,"fileCount":4},{"no":599,"name":"Nantiya cheyo","count":4,"fileCount":4},{"no":600,"name":"Nurbaini yusoh","count":4,"fileCount":4},{"no":601,"name":"ฟาอิส อะนิส","count":4,"fileCount":4},{"no":602,"name":"รักเทอร์ ที่สุด’ดด","count":4,"fileCount":4},{"no":603,"name":"แวเมาะ ยูโซะ","count":4,"fileCount":4},{"no":604,"name":"อัฟรีน กามา","count":4,"fileCount":4},{"no":605,"name":"จิ’จจ ในสวน’นน","count":4,"fileCount":4},{"no":606,"name":"ดารีลา สามะ","count":4,"fileCount":4},{"no":607,"name":"Cinta cinta","count":4,"fileCount":4},{"no":608,"name":"Maju terus","count":4,"fileCount":4},{"no":609,"name":"Fs’Hafiza yusof","count":4,"fileCount":4},{"no":610,"name":"Noree hayeehamat","count":4,"fileCount":4},{"no":611,"name":"ฟาฮามี อูมา","count":4,"fileCount":4},{"no":612,"name":"ยืนคนล่ะจุด’ เลยคิดคนล่ะ’แบบ","count":4,"fileCount":4},{"no":613,"name":"Aminoh masae","count":4,"fileCount":4},{"no":614,"name":"สุไรดา สาและมิง","count":4,"fileCount":4},{"no":615,"name":"มะรอบิน ยีสาแม","count":4,"fileCount":4},{"no":616,"name":"Tee ma","count":4,"fileCount":4},{"no":617,"name":"Feeya yaya","count":4,"fileCount":4},{"no":618,"name":"นูรุลไล เจ้ะเต้ะ","count":4,"fileCount":4},{"no":619,"name":"K’yah nursa","count":4,"fileCount":4},{"no":620,"name":"WanAzmah wanjaafar","count":4,"fileCount":4},{"no":621,"name":"ฟาตีฮะห์ มะแซ","count":4,"fileCount":4},{"no":622,"name":"Affanee Jano","count":4,"fileCount":4},{"no":623,"name":"Yasmee mei","count":4,"fileCount":4},{"no":624,"name":"รอยยิ้ม ของวันใหม่","count":4,"fileCount":4},{"no":625,"name":"Han han nurroyhan","count":4,"fileCount":4},{"no":626,"name":"Aifa fafa","count":4,"fileCount":4},{"no":627,"name":"Kusamsiyah nurfaria","count":4,"fileCount":4},{"no":628,"name":"Jah","count":4,"fileCount":4},{"no":629,"name":"อ่าตี๋’ ตัวน้อย","count":4,"fileCount":4},{"no":630,"name":"พี่มะ คนเดิม’ม","count":4,"fileCount":4},{"no":631,"name":"Ribad kasem","count":4,"fileCount":4},{"no":632,"name":"ซัลฟาร์เดียร์ ยะส๊ะ","count":4,"fileCount":4},{"no":633,"name":"ซีตีฮายา อูมา","count":4,"fileCount":4},{"no":634,"name":"มูฮะหมัด เจะหลง","count":4,"fileCount":4},{"no":635,"name":"อัมพร กะโด","count":4,"fileCount":4},{"no":636,"name":"Salamah thtr","count":4,"fileCount":4},{"no":637,"name":"Ana Muslimah","count":4,"fileCount":4},{"no":638,"name":"Nuraya kadeng","count":4,"fileCount":4},{"no":639,"name":"Suhaila chekoh","count":4,"fileCount":4},{"no":640,"name":"นาปีสะ ยะโก๊ะ","count":4,"fileCount":4},{"no":641,"name":"Sharif kakrita","count":4,"fileCount":4},{"no":642,"name":"Sarimah Hjw","count":4,"fileCount":4},{"no":643,"name":"Fa’Esah waekachi","count":4,"fileCount":4},{"no":644,"name":"Sinvear YM","count":4,"fileCount":4},{"no":645,"name":"Mame fakef","count":4,"fileCount":4},{"no":646,"name":"โซเฟีย แมเร๊าะ","count":4,"fileCount":4},{"no":647,"name":"Murnee ning","count":4,"fileCount":4},{"no":648,"name":"Nuriza kado","count":4,"fileCount":4},{"no":649,"name":"Mamee i-Reen’n","count":4,"fileCount":4},{"no":650,"name":"Nurnee nee","count":4,"fileCount":4},{"no":651,"name":"Badree cha","count":4,"fileCount":4},{"no":652,"name":"I’ideya badi","count":4,"fileCount":4},{"no":653,"name":"มามี้ มุสตากีม","count":4,"fileCount":4},{"no":654,"name":"Sa-bee sabee","count":4,"fileCount":4},{"no":655,"name":"Nuraihan kuteh","count":4,"fileCount":4},{"no":656,"name":"นิมาสือนี ยะโกะ","count":4,"fileCount":4},{"no":657,"name":"Dunia sementara","count":4,"fileCount":4},{"no":658,"name":"Mareeya hayimali","count":4,"fileCount":4},{"no":659,"name":"Asisah lateh","count":4,"fileCount":4},{"no":660,"name":"Nina haru","count":4,"fileCount":4},{"no":661,"name":"Muhammad ruskee","count":4,"fileCount":4},{"no":662,"name":"Fatimoh kalaekayoh","count":4,"fileCount":4},{"no":663,"name":"ซารีพ๊ะ กามาเซะ","count":4,"fileCount":4},{"no":664,"name":"ข้าวต้ม เยาะ","count":4,"fileCount":4},{"no":665,"name":"Asmah masyee","count":4,"fileCount":4},{"no":666,"name":"Asiyoh deramae","count":4,"fileCount":4},{"no":667,"name":"ขอเธอ เป็นคนสุดท้าย","count":4,"fileCount":4},{"no":668,"name":"Suemah malee","count":4,"fileCount":4},{"no":669,"name":"Salma ahmad","count":4,"fileCount":4},{"no":670,"name":"ฟาตี้ ลาเตะ","count":4,"fileCount":4},{"no":671,"name":"คอลีเยาะ มะแด","count":4,"fileCount":4},{"no":672,"name":"Jehmudo jehmae","count":4,"fileCount":4},{"no":673,"name":"นุรฮาวาตี เจะหลง","count":4,"fileCount":4},{"no":674,"name":"Hidup krn ujian","count":4,"fileCount":4},{"no":675,"name":"ซูฮัยดะห์ เจะหม๊ะ","count":4,"fileCount":4},{"no":676,"name":"รอฮานี สาแม","count":4,"fileCount":4},{"no":677,"name":"Cintacha Ta","count":3,"fileCount":3},{"no":678,"name":"Rahaya waedeng","count":3,"fileCount":3},{"no":679,"name":"เบลล่า เทอร์โบ","count":3,"fileCount":3},{"no":680,"name":"แตเตาะห์ แตเตาะห์","count":3,"fileCount":3},{"no":681,"name":"Mirayu yaya","count":3,"fileCount":3},{"no":682,"name":"สลามัยยยะห์ โดยสมาน","count":3,"fileCount":3},{"no":683,"name":"Sitiamima ma’ming","count":3,"fileCount":3},{"no":684,"name":"Nursalwanee waeteh","count":3,"fileCount":3},{"no":685,"name":"Mami mujahid","count":3,"fileCount":3},{"no":686,"name":"Kaa nur","count":3,"fileCount":3},{"no":687,"name":"Mamy fakrul faris","count":3,"fileCount":3},{"no":688,"name":"สายลมที่ พัดผ่านไป","count":3,"fileCount":3},{"no":689,"name":"ลาตีป๊ะ อีดิง","count":3,"fileCount":3},{"no":690,"name":"เจ๊ะอาวี หะยีสาและ","count":3,"fileCount":3},{"no":691,"name":"Yuhaila haree","count":3,"fileCount":3},{"no":692,"name":"Wan fa","count":3,"fileCount":3},{"no":693,"name":"Ismai sa","count":3,"fileCount":3},{"no":694,"name":"Suraiya seng","count":3,"fileCount":3},{"no":695,"name":"ซูรายา เต๊ะหวัง","count":3,"fileCount":3},{"no":696,"name":"Nining toko","count":3,"fileCount":3},{"no":697,"name":"Nooree nuyee","count":3,"fileCount":3},{"no":698,"name":"Mamasopi ma","count":3,"fileCount":3},{"no":699,"name":"Hannie sakina","count":3,"fileCount":3},{"no":700,"name":"โนโรดา ดือเระ","count":3,"fileCount":3},{"no":701,"name":"A lif cheloh","count":3,"fileCount":3},{"no":702,"name":"กอรีเปาะ หะยีวันมัน","count":3,"fileCount":3},{"no":703,"name":"ปะจู โบ๊ะ","count":3,"fileCount":3},{"no":704,"name":"Muneera kaday","count":3,"fileCount":3},{"no":705,"name":"Hamidah bonus","count":3,"fileCount":3},{"no":706,"name":"Anabella esor","count":3,"fileCount":3},{"no":707,"name":"Ismee Aisyah abdullah","count":3,"fileCount":3},{"no":708,"name":"Rosuenah salaeh","count":3,"fileCount":3},{"no":709,"name":"อุมมีฟาเดล ยูโซ๊ะ","count":3,"fileCount":3},{"no":710,"name":"Fanasi mydeng","count":3,"fileCount":3},{"no":711,"name":"Sainung Ituwa","count":3,"fileCount":3},{"no":712,"name":"นุรฮีดาย่ะห์ รับปักชื่อ","count":3,"fileCount":3},{"no":713,"name":"Tuanpisah yerae","count":3,"fileCount":3},{"no":714,"name":"Nursariyanee binsong","count":3,"fileCount":3},{"no":715,"name":"Present a’manee","count":3,"fileCount":3},{"no":716,"name":"Masii bana","count":3,"fileCount":3},{"no":717,"name":"Kayah kareng","count":3,"fileCount":3},{"no":718,"name":"Samanee heamman","count":3,"fileCount":3},{"no":719,"name":"Adeelah voheng","count":3,"fileCount":3},{"no":720,"name":"มาซีเตาะ สาแม","count":3,"fileCount":3},{"no":721,"name":"Medah yusoh","count":3,"fileCount":3},{"no":722,"name":"Hayateeyah madorse","count":3,"fileCount":3},{"no":723,"name":"ชีวิตเปลี่ยนไป ตามกาลเวลา","count":3,"fileCount":3},{"no":724,"name":"Sumaiyah mana","count":3,"fileCount":3},{"no":725,"name":"Ayah lee","count":3,"fileCount":3},{"no":726,"name":"Naemah salaeh","count":3,"fileCount":3},{"no":727,"name":"Sameerah rashid","count":3,"fileCount":3},{"no":728,"name":"Kucing putih","count":3,"fileCount":3},{"no":729,"name":"Mr’tolib uma","count":3,"fileCount":3},{"no":730,"name":"Nuriah mayii","count":3,"fileCount":3},{"no":731,"name":"อานิส อิควาน","count":3,"fileCount":3},{"no":732,"name":"โซ เฟีย","count":3,"fileCount":3},{"no":733,"name":"Rusminee mamy charif","count":3,"fileCount":3},{"no":734,"name":"ชีวิต เริ่มต้นใหม่ได้","count":3,"fileCount":3},{"no":735,"name":"Ainee ma","count":3,"fileCount":3},{"no":736,"name":"อับดุล กอเดร์","count":3,"fileCount":3},{"no":737,"name":"Pensuda awae","count":3,"fileCount":3},{"no":738,"name":"Deeyahuding samae","count":3,"fileCount":3},{"no":739,"name":"Ameenoh tohseng","count":3,"fileCount":3},{"no":740,"name":"Roslah binti hj loh","count":3,"fileCount":3},{"no":741,"name":"Rusri sa","count":3,"fileCount":3},{"no":742,"name":"Mai moh","count":3,"fileCount":3},{"no":743,"name":"Parida nawae","count":3,"fileCount":3},{"no":744,"name":"Fatin ma","count":3,"fileCount":3},{"no":745,"name":"Nuhaya cheyo","count":3,"fileCount":3},{"no":746,"name":"ยอมเจ็บ เพราะรัก","count":3,"fileCount":3},{"no":747,"name":"หะ ที่รัก","count":3,"fileCount":3},{"no":748,"name":"ซาลีฮะห์ สามะ","count":3,"fileCount":3},{"no":749,"name":"Bukti cinta","count":3,"fileCount":3},{"no":750,"name":"นิเมาะ ดาโอะ","count":3,"fileCount":3},{"no":751,"name":"Arif fin","count":3,"fileCount":3},{"no":752,"name":"Farhana phohada","count":3,"fileCount":3},{"no":753,"name":"กะยะห์ ถั่วทอดกรอบ","count":3,"fileCount":3},{"no":754,"name":"อันดาลีฟ เจ็ะเล็าะ","count":3,"fileCount":3},{"no":755,"name":"Yah treedaw","count":3,"fileCount":3},{"no":756,"name":"Kaji sah","count":3,"fileCount":3},{"no":757,"name":"Asming ha-mad","count":3,"fileCount":3},{"no":758,"name":"Deena musor","count":3,"fileCount":3},{"no":759,"name":"Suwaibah awae","count":3,"fileCount":3},{"no":760,"name":"Rusna chelor","count":3,"fileCount":3},{"no":761,"name":"ปรียา ปูเต๊ะ","count":3,"fileCount":3},{"no":762,"name":"Mayeyah ma","count":3,"fileCount":3},{"no":763,"name":"นูรีนา วารี","count":3,"fileCount":3},{"no":764,"name":"มารีนี ซีตี","count":3,"fileCount":3},{"no":765,"name":"อุมมี้อาดีน่า ดีน่า","count":3,"fileCount":3},{"no":766,"name":"ฮานัน อาแด","count":3,"fileCount":3},{"no":767,"name":"ซูไอดี สาแม","count":3,"fileCount":3},{"no":768,"name":"โหด ล่าแหละมัน","count":3,"fileCount":3},{"no":769,"name":"Matsamsee ulae","count":3,"fileCount":3},{"no":770,"name":"อัน นุร","count":3,"fileCount":3},{"no":771,"name":"รักเทอ สุดใจ","count":3,"fileCount":3},{"no":772,"name":"Nana kitty jambo","count":3,"fileCount":3},{"no":773,"name":"Salma umar","count":3,"fileCount":3},{"no":774,"name":"Aku pasrah","count":3,"fileCount":3},{"no":775,"name":"นูรมีรา ซาแม็ง","count":3,"fileCount":3},{"no":776,"name":"กอซี ดือราแม","count":3,"fileCount":3},{"no":777,"name":"Seetee masamoh","count":3,"fileCount":3},{"no":778,"name":"Noreesa noreesa","count":3,"fileCount":3},{"no":779,"name":"Kuhafsah kusoh","count":3,"fileCount":3},{"no":780,"name":"อามีเนาะ สาอิ","count":3,"fileCount":3},{"no":781,"name":"Soowaibah kawa-ing","count":3,"fileCount":3},{"no":782,"name":"Shamshun hj samah","count":3,"fileCount":3},{"no":783,"name":"Sitihaya binti anuwa","count":3,"fileCount":3},{"no":784,"name":"Impian kasih","count":3,"fileCount":3},{"no":785,"name":"ความห่างไกลเป็น เพียงระยะทาง","count":3,"fileCount":3},{"no":786,"name":"Firdaus maseela","count":3,"fileCount":3},{"no":787,"name":"Maae masoh","count":3,"fileCount":3},{"no":788,"name":"N Natasah salaemae","count":3,"fileCount":3},{"no":789,"name":"แวรุสกายะห์ สาเมาะ","count":3,"fileCount":3},{"no":790,"name":"Aranya morlor","count":5,"fileCount":3},{"no":791,"name":"Salimah chewae","count":3,"fileCount":3},{"no":792,"name":"Lala lali","count":3,"fileCount":3},{"no":793,"name":"ต่วนเยาะ เจะนิ","count":3,"fileCount":3},{"no":794,"name":"Nuriyah ASin","count":3,"fileCount":3},{"no":795,"name":"นิปาตีเมาะ แวเด็ง","count":3,"fileCount":3},{"no":796,"name":"Ruwaida mayi","count":3,"fileCount":3},{"no":797,"name":"มีเธอเสมอ โก้เก่","count":3,"fileCount":3},{"no":798,"name":"ยาการียา ปูซู","count":3,"fileCount":3},{"no":799,"name":"Huzai sanu","count":3,"fileCount":3},{"no":800,"name":"มาลาตี อูเซ็ง","count":3,"fileCount":3},{"no":801,"name":"วารดีณี ลอเซ็ง","count":3,"fileCount":3},{"no":802,"name":"Koreeyah kasor","count":3,"fileCount":3},{"no":803,"name":"พ.ต.ท ยงยุทธ อับดุลการี","count":3,"fileCount":3},{"no":804,"name":"As’rin samoh","count":3,"fileCount":3},{"no":805,"name":"Suhaibah bueraheng","count":3,"fileCount":3},{"no":806,"name":"นิกอมารียะ สาแม","count":3,"fileCount":3},{"no":807,"name":"Wanita yg solihah","count":3,"fileCount":3},{"no":808,"name":"สุดา ขุนสุด็น","count":3,"fileCount":3},{"no":809,"name":"Hameedah kahdah","count":3,"fileCount":3},{"no":810,"name":"Rawee maming","count":3,"fileCount":3},{"no":811,"name":"อาสะมิง สะมะแอ","count":3,"fileCount":3},{"no":812,"name":"Nasriya hasa","count":3,"fileCount":3},{"no":813,"name":"Ameenoh sosanae","count":3,"fileCount":3},{"no":814,"name":"Russila pa-ngoh","count":3,"fileCount":3},{"no":815,"name":"Nadir naif niasma","count":2,"fileCount":2},{"no":816,"name":"Ana saitung dathiorai","count":2,"fileCount":2},{"no":817,"name":"Tuansubaidah sani","count":2,"fileCount":2},{"no":818,"name":"รอมือลี มะลี","count":2,"fileCount":2},{"no":819,"name":"รอเทอร์.กลับมา นานเท่ารัยก้อรอ สามี","count":2,"fileCount":2},{"no":820,"name":"Abdulloh sara","count":2,"fileCount":2},{"no":821,"name":"Rusnanee keawnuy","count":2,"fileCount":2},{"no":822,"name":"Al-ameen sateng","count":2,"fileCount":2},{"no":823,"name":"Timueyae ta-he","count":2,"fileCount":2},{"no":824,"name":"Aminoh daro","count":2,"fileCount":2},{"no":825,"name":"Anak kampung","count":2,"fileCount":2},{"no":826,"name":"Misbah musor","count":2,"fileCount":2},{"no":827,"name":"Mareeyah alli","count":2,"fileCount":2},{"no":828,"name":"อามีเน๊าะ หลังปูเต๊ะ","count":2,"fileCount":2},{"no":829,"name":"Firdausnuzula cheha","count":2,"fileCount":2},{"no":830,"name":"Nung chelong","count":2,"fileCount":2},{"no":831,"name":"ไซนูรี ยานยา","count":2,"fileCount":2},{"no":832,"name":"Nurleeyana ma’yeesa","count":2,"fileCount":2},{"no":833,"name":"มามะ ดาราแม","count":2,"fileCount":2},{"no":834,"name":"Welyah mudaramea","count":2,"fileCount":2},{"no":835,"name":"จูบ๊ะ มะเขร็ม","count":2,"fileCount":2},{"no":836,"name":"ซัลมียะห์ ฮามิ","count":2,"fileCount":2},{"no":837,"name":"Ana da","count":2,"fileCount":2},{"no":838,"name":"สุกรี อาแซ","count":2,"fileCount":2},{"no":839,"name":"ซากีเราะห์ ตานิง","count":2,"fileCount":2},{"no":840,"name":"Mariyah doloh","count":2,"fileCount":2},{"no":841,"name":"นูรีดา ราตูยาแฮ","count":2,"fileCount":2},{"no":842,"name":"ณ๊องมา’ ยัยตัวเล็ก","count":2,"fileCount":2},{"no":843,"name":"Soraya hayeedueramae","count":2,"fileCount":2},{"no":844,"name":"อารมณ์ สนั่นก้อง","count":2,"fileCount":2},{"no":845,"name":"Mariam asaebaka","count":2,"fileCount":2},{"no":846,"name":"Rusni kami","count":2,"fileCount":2},{"no":847,"name":"Annas mani","count":2,"fileCount":2},{"no":848,"name":"นูรี อาแวสะแม","count":3,"fileCount":2},{"no":849,"name":"Bukan Kutak cinta","count":2,"fileCount":2},{"no":850,"name":"Ruamlee hadhem","count":2,"fileCount":2},{"no":851,"name":"Mariyae maming","count":2,"fileCount":2},{"no":852,"name":"เจะซารีปะห์ โตะดูบาฮา","count":2,"fileCount":2},{"no":853,"name":"Fateemon samon","count":2,"fileCount":2},{"no":854,"name":"สาลือมา มะดีเเมง","count":2,"fileCount":2},{"no":855,"name":"Akhawat best","count":2,"fileCount":2},{"no":856,"name":"ปาตีเมาะ บารู","count":2,"fileCount":2},{"no":857,"name":"Sareenee sarasae","count":2,"fileCount":2},{"no":858,"name":"Umm tamim","count":2,"fileCount":2},{"no":859,"name":"สามีล๊ะ แวดอเลาะ","count":2,"fileCount":2},{"no":860,"name":"Masana masaning","count":2,"fileCount":2},{"no":861,"name":"ไลลา พรหมจันทร์","count":2,"fileCount":2},{"no":862,"name":"Mariyah salaeh","count":2,"fileCount":2},{"no":863,"name":"ดาเรย์ ดลญา","count":2,"fileCount":2},{"no":864,"name":"Suenah tuelayaena","count":2,"fileCount":2},{"no":865,"name":"สารีฝ๊ะ ราชเพ็ชร","count":2,"fileCount":2},{"no":866,"name":"Mk sofeeyah","count":2,"fileCount":2},{"no":867,"name":"CT Fatimah Vael","count":2,"fileCount":2},{"no":868,"name":"Fadila Habib-ali","count":2,"fileCount":2},{"no":869,"name":"Sarimah abdullah amr","count":2,"fileCount":2},{"no":870,"name":"ซัลซาบีล มะpuc9","count":2,"fileCount":2},{"no":871,"name":"Mahadee neeta","count":2,"fileCount":2},{"no":872,"name":"รอกีเย๊าะ วี","count":2,"fileCount":2},{"no":873,"name":"เวลาว่างให้เป็นประโยชน์","count":2,"fileCount":2},{"no":874,"name":"Sareepah maming","count":2,"fileCount":2},{"no":875,"name":"Wildanee doloh","count":2,"fileCount":2},{"no":876,"name":"Aminah hayeewaechi","count":2,"fileCount":2},{"no":877,"name":"Subailee che-nae","count":2,"fileCount":2},{"no":878,"name":"Farnz Farhan","count":2,"fileCount":2},{"no":879,"name":"Na peesah","count":2,"fileCount":2},{"no":880,"name":"รักเทอร์ มากน่ะ","count":2,"fileCount":2},{"no":881,"name":"Awa tif","count":2,"fileCount":2},{"no":882,"name":"มูสสกิล บอนอง","count":2,"fileCount":2},{"no":883,"name":"Nareeman maeha","count":2,"fileCount":2},{"no":884,"name":"Ruseeta waedolah","count":2,"fileCount":2},{"no":885,"name":"Sainah doloh","count":2,"fileCount":2},{"no":886,"name":"มาซีเต๊าะ บากา","count":2,"fileCount":2},{"no":887,"name":"อาซีซะห์ หะยีดือราปู","count":2,"fileCount":2},{"no":888,"name":"Maskah toeng","count":2,"fileCount":2},{"no":889,"name":"Nur hidayah","count":2,"fileCount":2},{"no":890,"name":"Adilahh rms","count":2,"fileCount":2},{"no":891,"name":"Areeyah ji","count":2,"fileCount":2},{"no":892,"name":"รอซีย๊ะ แลซารี","count":2,"fileCount":2},{"no":893,"name":"Aesah amoh","count":2,"fileCount":2},{"no":894,"name":"ชิกรี สะมพแอ","count":2,"fileCount":2},{"no":895,"name":"Cahaya nur","count":2,"fileCount":2},{"no":896,"name":"Kurizam ismall","count":2,"fileCount":2},{"no":897,"name":"Nu binya","count":2,"fileCount":2},{"no":898,"name":"รุสกี วิวาห์","count":2,"fileCount":2},{"no":899,"name":"Romdon damaloh","count":2,"fileCount":2},{"no":900,"name":"Nurawa nee","count":2,"fileCount":2},{"no":901,"name":"Icezy smile","count":2,"fileCount":2},{"no":902,"name":"Nureesum masensa","count":2,"fileCount":2},{"no":903,"name":"Fateehah bindolah","count":2,"fileCount":2},{"no":904,"name":"Mariana ameen","count":2,"fileCount":2},{"no":905,"name":"Aneesah ronee","count":2,"fileCount":2},{"no":906,"name":"รุสดี บลูกาลาเต๊ะ","count":2,"fileCount":2},{"no":907,"name":"นิต่อ พรุหมาก","count":2,"fileCount":2},{"no":908,"name":"Ad nan azmee ming","count":2,"fileCount":2},{"no":909,"name":"Nuryah esabsee","count":2,"fileCount":2},{"no":910,"name":"Rahayu chesemae","count":2,"fileCount":2},{"no":911,"name":"Patimoh supla-ngi","count":2,"fileCount":2},{"no":912,"name":"Yaya laa pinks smile","count":2,"fileCount":2},{"no":913,"name":"Mariam ahmad","count":2,"fileCount":2},{"no":914,"name":"Sitisaodah e-tae","count":2,"fileCount":2},{"no":915,"name":"Fitree muda","count":2,"fileCount":2},{"no":916,"name":"Haswa nee","count":2,"fileCount":2},{"no":917,"name":"สุขนิสา ยูโซ๊ะ","count":2,"fileCount":2},{"no":918,"name":"พัชณี กาสิกา","count":2,"fileCount":2},{"no":919,"name":"Sulkiflee etea","count":1,"fileCount":1},{"no":920,"name":"ซาฟี อี","count":1,"fileCount":1},{"no":921,"name":"Salwa daromae","count":1,"fileCount":1},{"no":922,"name":"โนรีสา ตาเละ","count":1,"fileCount":1},{"no":923,"name":"Yusra drm","count":1,"fileCount":1},{"no":924,"name":"อีลยาส สอเดาะ","count":1,"fileCount":1},{"no":925,"name":"สายูตี ยามะ","count":1,"fileCount":1},{"no":926,"name":"Goday yi","count":1,"fileCount":1},{"no":927,"name":"Indahnya takdir","count":1,"fileCount":1},{"no":928,"name":"Mayah maeroh","count":1,"fileCount":1},{"no":929,"name":"อาอีดะห์ อาแว","count":1,"fileCount":1},{"no":930,"name":"Ingatlahmati mati","count":1,"fileCount":1},{"no":931,"name":"Sapinah salaemae","count":1,"fileCount":1},{"no":932,"name":"Habibah hasan","count":1,"fileCount":1},{"no":933,"name":"เอมมี่ มี่มี่","count":1,"fileCount":1},{"no":934,"name":"Panida cheseni","count":1,"fileCount":1},{"no":935,"name":"อัสมัส สุหลง","count":1,"fileCount":1},{"no":936,"name":"Salanee awae","count":1,"fileCount":1},{"no":937,"name":"Bah toiyibah","count":1,"fileCount":1},{"no":938,"name":"Nurai awae","count":1,"fileCount":1},{"no":939,"name":"Yqmeela cheming","count":1,"fileCount":1},{"no":940,"name":"Nur-inee lateh","count":1,"fileCount":1},{"no":941,"name":"Mariyam nakhor","count":1,"fileCount":1},{"no":942,"name":"Aseeyah badree","count":1,"fileCount":1},{"no":943,"name":"Abdullah masamae","count":1,"fileCount":1},{"no":944,"name":"มะลาเซ็น","count":1,"fileCount":1},{"no":945,"name":"Mung single","count":1,"fileCount":1},{"no":946,"name":"Sheila ariffin","count":1,"fileCount":1},{"no":947,"name":"Rusdina ma","count":1,"fileCount":1},{"no":948,"name":"Pa pa jasnim","count":1,"fileCount":1},{"no":949,"name":"Nurshahida doloh","count":2,"fileCount":1},{"no":950,"name":"สามเอ็ด มีนา สามเก้า","count":1,"fileCount":1},{"no":951,"name":"Safeera che uma","count":1,"fileCount":1},{"no":952,"name":"ซีตีอามีเนาะ มะอีซอ","count":1,"fileCount":1},{"no":953,"name":"Fa fatonah","count":1,"fileCount":1},{"no":954,"name":"Asura yunut","count":1,"fileCount":1},{"no":955,"name":"Hafed vovo","count":1,"fileCount":1},{"no":956,"name":"Fatimah syuhada","count":1,"fileCount":1},{"no":957,"name":"Asiyah awae","count":1,"fileCount":1},{"no":958,"name":"Fudail lanong","count":1,"fileCount":1},{"no":959,"name":"Putra syamsuddin","count":1,"fileCount":1},{"no":960,"name":"อุสมาน ดือราโอ๊ะ","count":1,"fileCount":1},{"no":961,"name":"Mamee aida","count":1,"fileCount":1},{"no":962,"name":"Hijabii Habibi","count":1,"fileCount":1},{"no":963,"name":"Massu musa","count":1,"fileCount":1},{"no":964,"name":"Smara kalay","count":1,"fileCount":1},{"no":965,"name":"Ummi romadon","count":1,"fileCount":1},{"no":966,"name":"อาอีซะห์ สะมะแฮ","count":1,"fileCount":1},{"no":967,"name":"อัฟรีน ชารู ดอแม","count":1,"fileCount":1},{"no":968,"name":"ฮายาตี สือแม","count":1,"fileCount":1},{"no":969,"name":"Lukman alif","count":1,"fileCount":1},{"no":970,"name":"Nadiyah usoh","count":1,"fileCount":1},{"no":971,"name":"Nurhaifa Haifa","count":1,"fileCount":1},{"no":972,"name":"Muhamad suhaimi","count":1,"fileCount":1},{"no":973,"name":"นารีซา บินมูซอ","count":1,"fileCount":1},{"no":974,"name":"Abi ummi","count":1,"fileCount":1},{"no":975,"name":"Cerita cinta kita","count":1,"fileCount":1},{"no":976,"name":"เอรา คน ติดดิน","count":1,"fileCount":1},{"no":977,"name":"Rusneeda merli","count":1,"fileCount":1},{"no":978,"name":"Demi cinta yang suci","count":1,"fileCount":1},{"no":979,"name":"Solihah ayi","count":1,"fileCount":1},{"no":980,"name":"อาลี ยาเด็ง","count":1,"fileCount":1},{"no":981,"name":"Paesah salaeh","count":1,"fileCount":1},{"no":982,"name":"เริ่มใหม่ กับชีวิตใหม่","count":1,"fileCount":1},{"no":983,"name":"แบเลง รถตู้","count":1,"fileCount":1},{"no":984,"name":"Vaneeda dainada","count":1,"fileCount":1},{"no":985,"name":"Sofia salaeh","count":1,"fileCount":1},{"no":986,"name":"cinTaku reendu","count":1,"fileCount":1},{"no":987,"name":"yamilah tohlu","count":1,"fileCount":1},{"no":988,"name":"suraida deeyoh","count":1,"fileCount":1},{"no":989,"name":"มูรณี สาเมาะ","count":1,"fileCount":1},{"no":990,"name":"Nurisan salaea","count":1,"fileCount":1},{"no":991,"name":"Asriyana Tayeh","count":1,"fileCount":1},{"no":992,"name":"Kah kasor","count":1,"fileCount":1},{"no":993,"name":"ปาตีเม๊าะ มะโกนะ","count":1,"fileCount":1},{"no":994,"name":"Cermin hidup","count":1,"fileCount":1},{"no":995,"name":"Duo ku untuk mu","count":1,"fileCount":1},{"no":996,"name":"Aishah muso","count":1,"fileCount":1},{"no":997,"name":"นูรมา โจจาเราะ","count":1,"fileCount":1},{"no":998,"name":"Munaowarah lateh","count":1,"fileCount":1},{"no":999,"name":"อดิสรณ์ ขันติสกุลงาม","count":1,"fileCount":1}];
+
+    // State
+    let currentFilter = 'gte3'; // default 3 ครั้งเป็นต้นไป
+    let pool = [];
+    let winners = [];
+    let isSpinning = false;
+    let soundEnabled = true;
+
+    // Audio Context (Web Audio API)
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTickSound() {
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.03);
+      } catch (e) {}
+    }
+
+    function playWinFanfare() {
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const startTime = audioCtx.currentTime + idx * 0.1;
+          gain.gain.setValueAtTime(0.3, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.4);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + 0.4);
+        });
+      } catch (e) {}
+    }
+
+    // Filter Logic
+    function getCandidatesByFilter(filter) {
+      if (filter === 'gte3') return ALL_CANDIDATES.filter(c => c.count >= 3);
+      if (filter === 'gt3') return ALL_CANDIDATES.filter(c => c.count > 3);
+      if (filter === 'eq3') return ALL_CANDIDATES.filter(c => c.count === 3);
+      return ALL_CANDIDATES;
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.filter === filter);
+      });
+
+      pool = getCandidatesByFilter(filter).map(c => ({ ...c }));
+      updateUI();
+      drawWheel(0);
+    }
+
+    function updateUI() {
+      const count = pool.length;
+      document.getElementById('candCount').innerText = count;
+      document.getElementById('tabCountBadge').innerText = count;
+      
+      const filterNames = {
+        gte3: 'ผู้มีสิทธิ์ 3 ครั้งขึ้นไป (' + count + ' คน)',
+        gt3: 'ผู้มีสิทธิ์เกิน 3 ครั้ง (' + count + ' คน)',
+        eq3: 'ผู้มีสิทธิ์ 3 ครั้งพอดี (' + count + ' คน)',
+        all: 'ผู้มีสิทธิ์ทั้งหมด (' + count + ' คน)'
+      };
+      document.getElementById('poolSubtitle').innerText = filterNames[currentFilter];
+
+      // Render Candidate List
+      renderCandidateList();
+    }
+
+    function renderCandidateList(filterText = '') {
+      const el = document.getElementById('candidateListEl');
+      const query = filterText.toLowerCase().trim();
+      const filtered = query ? pool.filter(c => c.name.toLowerCase().includes(query)) : pool;
+
+      if (filtered.length === 0) {
+        el.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted);">ไม่พบรายชื่อ</div>';
+        return;
+      }
+
+      el.innerHTML = filtered.slice(0, 150).map((c, i) => `
+        <div class="candidate-row">
+          <div>
+            <span style="color:var(--text-muted); font-size:0.75rem; margin-right:8px;">${i+1}.</span>
+            <span class="cand-name">${escapeHtml(c.name)}</span>
+          </div>
+          <span class="cand-count">พบ ${c.count} ครั้ง</span>
+        </div>
+      `).join('');
+
+      if (filtered.length > 150) {
+        el.innerHTML += `<div style="text-align:center; padding:10px; font-size:0.75rem; color:var(--text-muted);">แสดง 150 รายการแรกจากทั้งหมด ${filtered.length} คน (พิมพ์ค้นหาเพื่อดูชื่ออื่นๆ)</div>`;
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Wheel Canvas Drawing
+    const canvas = document.getElementById('wheelCanvas');
+    const ctx = canvas.getContext('2d');
+    const WHEEL_SECTORS = 24; // Visual slices on wheel
+    const PALETTE = [
+      '#d97706', '#1e293b', '#0f766e', '#881337',
+      '#b45309', '#334155', '#047857', '#9f1239',
+      '#ca8a04', '#1e1b4b', '#15803d', '#be123c'
+    ];
+
+    let currentRotation = 0; // In radians
+
+    function drawWheel(angle = 0) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const radius = cx - 20;
+
+      ctx.clearRect(0, 0, w, h);
+
+      if (pool.length === 0) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#1e293b';
+        ctx.fill();
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = 'bold 28px Prompt';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('ไม่มีรายชื่อในวงล้อ', cx, cy);
+        return;
+      }
+
+      const numSlices = Math.min(WHEEL_SECTORS, Math.max(8, pool.length));
+      const sliceAngle = (2 * Math.PI) / numSlices;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+
+      for (let i = 0; i < numSlices; i++) {
+        const startA = i * sliceAngle;
+        const endA = startA + sliceAngle;
+
+        // Draw sector
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, radius, startA, endA);
+        ctx.fillStyle = PALETTE[i % PALETTE.length];
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#0a0f1d';
+        ctx.stroke();
+
+        // Draw Text
+        ctx.save();
+        ctx.rotate(startA + sliceAngle / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 20px Prompt';
+        
+        // Pick representative name from pool
+        const itemIdx = Math.floor((i / numSlices) * pool.length) % pool.length;
+        const label = pool[itemIdx] ? pool[itemIdx].name : '';
+        const truncated = label.length > 15 ? label.slice(0, 14) + '…' : label;
+        ctx.fillText(truncated, radius - 25, 7);
+        ctx.restore();
+      }
+
+      // Outer Gold Rim
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // Spin Mechanics
+    let pendingWinner = null;
+
+    function spin() {
+      if (isSpinning || pool.length === 0) return;
+      initAudio();
+
+      isSpinning = true;
+      document.getElementById('spinBtn').disabled = true;
+      document.getElementById('centerHubBtn').style.pointerEvents = 'none';
+
+      // Pick winner with uniform crypto randomness
+      const randArr = new Uint32Array(1);
+      window.crypto.getRandomValues(randArr);
+      const winnerIndex = randArr[0] % pool.length;
+      pendingWinner = pool[winnerIndex];
+
+      const duration = 5000 + Math.random() * 1500; // 5 - 6.5s
+      const startTime = performance.now();
+      const startRotation = currentRotation;
+      const totalSpins = 8 + Math.floor(Math.random() * 4); // 8-11 full rotations
+      const targetExtra = Math.random() * 2 * Math.PI;
+      const targetRotation = startRotation + totalSpins * 2 * Math.PI + targetExtra;
+
+      let lastTickAngle = startRotation;
+      const pointer = document.getElementById('wheelPointer');
+      const ticker = document.getElementById('liveTickerName');
+
+      function animate(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+
+        // Ease Out Cubic physics curve
+        const ease = 1 - Math.pow(1 - progress, 3.2);
+        currentRotation = startRotation + (targetRotation - startRotation) * ease;
+
+        drawWheel(currentRotation);
+
+        // Tick detection
+        const delta = Math.abs(currentRotation - lastTickAngle);
+        if (delta > (2 * Math.PI / WHEEL_SECTORS)) {
+          lastTickAngle = currentRotation;
+          pointer.classList.add('tick');
+          setTimeout(() => pointer.classList.remove('tick'), 50);
+          playTickSound();
+
+          // Rapid ticker display
+          const randomPreviewIdx = Math.floor(Math.random() * pool.length);
+          ticker.innerText = pool[randomPreviewIdx].name;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          // Finished
+          isSpinning = false;
+          document.getElementById('spinBtn').disabled = false;
+          document.getElementById('centerHubBtn').style.pointerEvents = 'auto';
+          ticker.innerText = pendingWinner.name;
+
+          playWinFanfare();
+          startConfetti();
+          showWinnerModal(pendingWinner);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function showWinnerModal(winner) {
+      document.getElementById('modalWinnerName').innerText = winner.name;
+      document.getElementById('modalWinnerMeta').innerText = 'เข้าเงื่อนไข: พบ ' + winner.count + ' ครั้ง';
+      document.getElementById('winnerModal').classList.add('active');
+
+      // Add to Winners history
+      winners.unshift({
+        name: winner.name,
+        count: winner.count,
+        time: new Date().toLocaleTimeString('th-TH')
+      });
+      renderWinners();
+    }
+
+    function renderWinners() {
+      const el = document.getElementById('winnersListEl');
+      const count = winners.length;
+      document.getElementById('winnerCount').innerText = count;
+      document.getElementById('tabWinnerBadge').innerText = count;
+
+      if (count === 0) {
+        el.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted); font-size:0.85rem;">ยังไม่มีประวัติการสุ่ม</div>';
+        return;
+      }
+
+      el.innerHTML = winners.map((w, idx) => `
+        <div class="candidate-row" style="background:rgba(245,158,11,0.08); border-color:rgba(245,158,11,0.25);">
+          <div>
+            <span style="color:var(--gold-light); font-weight:700; margin-right:8px;">#${count - idx}</span>
+            <span class="cand-name" style="font-weight:700;">${escapeHtml(w.name)}</span>
+            <span style="font-size:0.7rem; color:var(--text-muted); display:block;">สุ่มเมื่อ: ${w.time}</span>
+          </div>
+          <span class="cand-count" style="background:var(--gold-primary); color:#000;">พบ ${w.count} ครั้ง</span>
+        </div>
+      `).join('');
+    }
+
+    // Modal Actions
+    document.getElementById('btnModalRemove').addEventListener('click', () => {
+      if (pendingWinner) {
+        pool = pool.filter(c => c.name !== pendingWinner.name);
+        updateUI();
+        drawWheel(currentRotation);
+      }
+      document.getElementById('winnerModal').classList.remove('active');
+      stopConfetti();
+    });
+
+    document.getElementById('btnModalKeep').addEventListener('click', () => {
+      document.getElementById('winnerModal').classList.remove('active');
+      stopConfetti();
+    });
+
+    // Confetti Engine
+    let confettiActive = false;
+    let confettiParticles = [];
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const confCtx = confettiCanvas.getContext('2d');
+
+    function resizeConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeConfetti);
+    resizeConfetti();
+
+    function startConfetti() {
+      confettiActive = true;
+      confettiParticles = [];
+      const colors = ['#f59e0b', '#fbbf24', '#3b82f6', '#10b981', '#ec4899', '#8b5cf6'];
+      for (let i = 0; i < 120; i++) {
+        confettiParticles.push({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+          size: Math.random() * 8 + 4,
+          speedY: Math.random() * 4 + 2,
+          speedX: Math.random() * 3 - 1.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotationSpeed: Math.random() * 8 - 4
+        });
+      }
+      renderConfetti();
+    }
+
+    function renderConfetti() {
+      if (!confettiActive) {
+        confCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        return;
+      }
+      confCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettiParticles.forEach(p => {
+        p.y += p.speedY;
+        p.x += p.speedX;
+        p.rotation += p.rotationSpeed;
+        confCtx.save();
+        confCtx.translate(p.x, p.y);
+        confCtx.rotate((p.rotation * Math.PI) / 180);
+        confCtx.fillStyle = p.color;
+        confCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        confCtx.restore();
+
+        if (p.y > confettiCanvas.height) {
+          p.y = -10;
+          p.x = Math.random() * confettiCanvas.width;
+        }
+      });
+      requestAnimationFrame(renderConfetti);
+    }
+
+    function stopConfetti() {
+      confettiActive = false;
+      confCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    }
+
+    // Event Listeners
+    document.getElementById('spinBtn').addEventListener('click', spin);
+    document.getElementById('centerHubBtn').addEventListener('click', spin);
+
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => setFilter(chip.dataset.filter));
+    });
+
+    // Sound toggle
+    const soundBtn = document.getElementById('soundToggleBtn');
+    soundBtn.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundBtn.innerText = soundEnabled ? '🔊' : '🔇';
+      soundBtn.classList.toggle('active', soundEnabled);
+    });
+
+    // QR Button
+    document.getElementById('qrBtn').addEventListener('click', () => {
+      document.getElementById('qrModal').classList.add('active');
+    });
+
+    // Tabs
+    document.querySelectorAll('.tab-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        item.classList.add('active');
+        document.getElementById(item.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Search
+    document.getElementById('searchCand').addEventListener('input', (e) => {
+      renderCandidateList(e.target.value);
+    });
+
+    // Sub actions
+    document.getElementById('btnResetPool').addEventListener('click', () => {
+      setFilter(currentFilter);
+      alert('รีเซ็ตรายชื่อเริ่มต้นเรียบร้อย (' + pool.length + ' คน)');
+    });
+
+    document.getElementById('btnShufflePool').addEventListener('click', () => {
+      pool.sort(() => Math.random() - 0.5);
+      drawWheel(currentRotation);
+      renderCandidateList();
+      alert('สลับลำดับรายชื่อเรียบร้อย!');
+    });
+
+    // Export Winners CSV
+    document.getElementById('btnExportWinners').addEventListener('click', () => {
+      if (winners.length === 0) {
+        alert('ยังไม่มีรายชื่อผู้โชคดี');
+        return;
+      }
+      let csv = '\uFEFFลำดับ,ชื่อ-นามสกุล,จำนวนครั้งที่พบ,เวลาที่ได้รางวัล\r\n';
+      winners.forEach((w, i) => {
+        csv += (winners.length - i) + ',"' + w.name + '",' + w.count + ',"' + w.time + '"\r\n';
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'รายชื่อผู้ได้รับรางวัล_' + new Date().toISOString().slice(0, 10) + '.csv';
+      link.click();
+    });
+
+    // Init
+    setFilter('gte3');
+  </script>
+</body>
+</html>
